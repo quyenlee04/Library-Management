@@ -1,5 +1,9 @@
 package com.library.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +14,7 @@ import java.util.stream.Collectors;
 import com.library.dao.BorrowingDAO;
 import com.library.model.Borrowing;
 import com.library.model.BorrowingDetail;
+import com.library.util.DBUtil;
 
 public class BorrowingService {
     private static BorrowingService instance;
@@ -30,17 +35,89 @@ public class BorrowingService {
         return borrowingDAO.findAll();
     }
     
-    public Optional<Borrowing> getBorrowingById(String id) {
-        return borrowingDAO.findById(id);
+    public Optional<Borrowing> getBorrowingById(String borrowingId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = DBUtil.getInstance().getConnection();
+            String sql = "SELECT mt.*, dg.tenDocGia, s.tenSach FROM muontra mt " +
+                         "JOIN docgia dg ON mt.maDocGia = dg.maDocGia " +
+                         "JOIN sach s ON mt.maSach = s.maSach " +
+                         "WHERE mt.maMuonTra = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(borrowingId));
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                // Replace the private method call with our own mapping method
+                Borrowing borrowing = mapResultSetToBorrowing(rs);
+                return Optional.of(borrowing);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            System.err.println("Error finding borrowing by ID: " + e.getMessage());
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            // Close resources manually instead of using DBUtil.closeResources
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    // Add a new method to map ResultSet to Borrowing
+    private Borrowing mapResultSetToBorrowing(ResultSet rs) throws SQLException {
+        Borrowing borrowing = new Borrowing();
+        
+        borrowing.setMaMuonTra(rs.getString("maMuonTra"));
+        borrowing.setMaDocGia(rs.getString("maDocGia"));
+        borrowing.setMaSach(rs.getString("maSach"));
+        
+        // Map dates
+        java.sql.Date ngayMuon = rs.getDate("ngayMuon");
+        if (ngayMuon != null) {
+            borrowing.setNgayMuon(ngayMuon.toLocalDate());
+        }
+        
+        java.sql.Date ngayHenTra = rs.getDate("ngayHenTra");
+        if (ngayHenTra != null) {
+            borrowing.setNgayHenTra(ngayHenTra.toLocalDate());
+        }
+        
+        java.sql.Date ngayTraThucTe = rs.getDate("ngayTraThucTe");
+        if (ngayTraThucTe != null) {
+            borrowing.setNgayTraThucTe(ngayTraThucTe.toLocalDate());
+        }
+        
+        borrowing.setTrangThai(rs.getString("trangThai"));
+        borrowing.setGhiChu(rs.getString("ghiChu"));
+        
+        // Additional fields from joins
+        borrowing.setTenDocGia(rs.getString("tenDocGia"));
+        borrowing.setTenSach(rs.getString("tenSach"));
+        
+        return borrowing;
     }
     
     public List<Borrowing> getBorrowingsByReaderId(String readerId) {
         return borrowingDAO.findByReaderId(readerId);
     }
     
+    // Update this method to match your database status values
     public List<Borrowing> getActiveBorrowings() {
         return getAllBorrowings().stream()
-                .filter(b -> b.getNgayTraThucTe() == null)
+                .filter(b -> b.getNgayTraThucTe() == null && 
+                            ("DANG_MUON".equals(b.getTrangThai()) || 
+                             "Borrowed".equals(b.getTrangThai()) ||
+                             "Active".equals(b.getTrangThai())))
                 .collect(Collectors.toList());
     }
     
@@ -187,8 +264,20 @@ public class BorrowingService {
      * @param borrowing The borrowing record to update
      * @return true if the update was successful, false otherwise
      */
+    /**
+     * Updates a borrowing record with return information
+     * 
+     * @param borrowing The borrowing to update
+     * @return true if successful, false otherwise
+     */
     public boolean updateBorrowing(Borrowing borrowing) {
-        return borrowingDAO.update(borrowing);
+        try {
+            return borrowingDAO.updateBorrowing(borrowing);
+        } catch (Exception e) {
+            System.err.println("Error updating borrowing: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
     
     /**

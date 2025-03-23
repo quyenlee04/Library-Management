@@ -143,6 +143,23 @@ public class FineDAO {
         return fines;
     }
     
+    private Fine mapResultSetToFine(ResultSet rs) throws SQLException {
+        Fine fine = new Fine();
+        fine.setMaPhieuPhat(rs.getString("maPhieuPhat"));
+        fine.setMaMuonTra(rs.getString("maPhieuMuon"));
+        fine.setSoTienPhat(rs.getDouble("soTienPhat"));
+        fine.setLyDo(rs.getString("lyDo"));
+        
+        // Try to get tenDocGia if it exists in the result set
+        try {
+            fine.setTenDocGia(rs.getString("tenDocGia"));
+        } catch (SQLException e) {
+            // Column might not be in the result set, ignore
+        }
+        
+        return fine;
+    }
+    
     public boolean save(Fine fine) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -152,35 +169,31 @@ public class FineDAO {
             conn = DBUtil.getInstance().getConnection();
             String sql;
             
-            // If maPhiPhat is null, exclude it from the INSERT statement to let database auto-increment
-            if (fine.getMaPhiPhat() == null || fine.getMaPhiPhat().isEmpty()) {
-                sql = "INSERT INTO phiphat (maPhieuMuon, soTien, lyDo, ngayPhat, daTra) " +
-                      "VALUES (?, ?, ?, ?, ?)";
+            // If maPhieuPhat is null, exclude it from the INSERT statement to let database auto-increment
+            if (fine.getMaPhieuPhat() == null || fine.getMaPhieuPhat().isEmpty()) {
+                sql = "INSERT INTO phieuphat (maPhieuMuon, lyDo, soTienPhat) " +
+                      "VALUES (?, ?, ?)";
                 stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                stmt.setString(1, fine.getMaPhieuMuon());
-                stmt.setDouble(2, fine.getSoTien());
-                stmt.setString(3, fine.getLyDo());
-                stmt.setDate(4, Date.valueOf(fine.getNgayPhat()));
-                stmt.setBoolean(5, fine.isDaTra());
+                stmt.setInt(1, Integer.parseInt(fine.getMaMuonTra()));
+                stmt.setString(2, fine.getLyDo());
+                stmt.setDouble(3, fine.getSoTienPhat());
             } else {
-                sql = "INSERT INTO phiphat (maPhiPhat, maPhieuMuon, soTien, lyDo, ngayPhat, daTra) " +
-                      "VALUES (?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO phieuphat (maPhieuPhat, maPhieuMuon, lyDo, soTienPhat) " +
+                      "VALUES (?, ?, ?, ?)";
                 stmt = conn.prepareStatement(sql);
-                stmt.setString(1, fine.getMaPhiPhat());
-                stmt.setString(2, fine.getMaPhieuMuon());
-                stmt.setDouble(3, fine.getSoTien());
-                stmt.setString(4, fine.getLyDo());
-                stmt.setDate(5, Date.valueOf(fine.getNgayPhat()));
-                stmt.setBoolean(6, fine.isDaTra());
+                stmt.setInt(1, Integer.parseInt(fine.getMaPhieuPhat()));
+                stmt.setInt(2, Integer.parseInt(fine.getMaMuonTra()));
+                stmt.setString(3, fine.getLyDo());
+                stmt.setDouble(4, fine.getSoTienPhat());
             }
             
             int rowsAffected = stmt.executeUpdate();
             
             // If auto-increment was used, get the generated ID and set it in the fine object
-            if ((fine.getMaPhiPhat() == null || fine.getMaPhiPhat().isEmpty()) && rowsAffected > 0) {
+            if ((fine.getMaPhieuPhat() == null || fine.getMaPhieuPhat().isEmpty()) && rowsAffected > 0) {
                 rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
-                    fine.setMaPhiPhat(rs.getString(1));
+                    fine.setMaPhieuPhat(String.valueOf(rs.getInt(1)));
                 }
             }
             
@@ -200,23 +213,13 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "UPDATE phiphat SET maPhieuMuon = ?, soTien = ?, lyDo = ?, " +
-                         "ngayPhat = ?, daTra = ?, ngayTra = ? WHERE maPhiPhat = ?";
+            String sql = "UPDATE phieuphat SET maPhieuMuon = ?, lyDo = ?, soTienPhat = ? WHERE maPhieuPhat = ?";
             
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, fine.getMaPhieuMuon());
-            stmt.setDouble(2, fine.getSoTien());
-            stmt.setString(3, fine.getLyDo());
-            stmt.setDate(4, Date.valueOf(fine.getNgayPhat()));
-            stmt.setBoolean(5, fine.isDaTra());
-            
-            if (fine.getNgayTra() != null) {
-                stmt.setDate(6, Date.valueOf(fine.getNgayTra()));
-            } else {
-                stmt.setNull(6, java.sql.Types.DATE);
-            }
-            
-            stmt.setString(7, fine.getMaPhiPhat());
+            stmt.setInt(1, Integer.parseInt(fine.getMaMuonTra()));
+            stmt.setString(2, fine.getLyDo());
+            stmt.setDouble(3, fine.getSoTienPhat());
+            stmt.setInt(4, Integer.parseInt(fine.getMaPhieuPhat()));
             
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -272,30 +275,6 @@ public class FineDAO {
         } finally {
             closeResources(conn, stmt, null);
         }
-    }
-    
-    private Fine mapResultSetToFine(ResultSet rs) throws SQLException {
-        Fine fine = new Fine();
-        fine.setMaPhiPhat(rs.getString("maPhiPhat"));
-        fine.setMaPhieuMuon(rs.getString("maPhieuMuon"));
-        fine.setSoTien(rs.getDouble("soTien"));
-        fine.setLyDo(rs.getString("lyDo"));
-        
-        Date ngayPhat = rs.getDate("ngayPhat");
-        if (ngayPhat != null) {
-            fine.setNgayPhat(ngayPhat.toLocalDate());
-        }
-        
-        fine.setDaTra(rs.getBoolean("daTra"));
-        
-        Date ngayTra = rs.getDate("ngayTra");
-        if (ngayTra != null) {
-            fine.setNgayTra(ngayTra.toLocalDate());
-        }
-        
-        fine.setTenDocGia(rs.getString("tenDocGia"));
-        
-        return fine;
     }
     
     private void closeResources(Connection conn, PreparedStatement stmt, ResultSet rs) {

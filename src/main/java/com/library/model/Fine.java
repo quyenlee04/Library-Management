@@ -2,47 +2,43 @@ package com.library.model;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a fine in the library system
+ */
 public class Fine {
-    private String maPhiPhat;
-    private String maPhieuMuon;
-    private double soTien;
+    private String maPhieuPhat;
+    private String maMuonTra;
     private String lyDo;
-    private LocalDate ngayPhat;
-    private boolean daTra;
+    private double soTienPhat;
     private LocalDate ngayTra;
     
     // For display purposes
     private String tenDocGia;
+    private LocalDate ngayPhat;
     
     public Fine() {
+        // Default constructor
         this.ngayPhat = LocalDate.now();
-        this.daTra = false;
+    }
+    
+    public Fine(String maPhieuPhat, String maMuonTra, String lyDo, double soTienPhat) {
+        this.maPhieuPhat = maPhieuPhat;
+        this.maMuonTra = maMuonTra;
+        this.lyDo = lyDo;
+        this.soTienPhat = soTienPhat;
+        this.ngayPhat = LocalDate.now();
     }
     
     // Getters and Setters
-    public String getMaPhiPhat() {
-        return maPhiPhat;
+    public String getMaPhieuPhat() {
+        return maPhieuPhat;
     }
     
-    public void setMaPhiPhat(String maPhiPhat) {
-        this.maPhiPhat = maPhiPhat;
+    public void setMaPhieuPhat(String maPhieuPhat) {
+        this.maPhieuPhat = maPhieuPhat;
     }
     
-    public String getMaPhieuMuon() {
-        return maPhieuMuon;
-    }
-    
-    public void setMaPhieuMuon(String maPhieuMuon) {
-        this.maPhieuMuon = maPhieuMuon;
-    }
-    
-    public double getSoTien() {
-        return soTien;
-    }
-    
-    public void setSoTien(double soTien) {
-        this.soTien = soTien;
-    }
+  
     
     public String getLyDo() {
         return lyDo;
@@ -50,6 +46,22 @@ public class Fine {
     
     public void setLyDo(String lyDo) {
         this.lyDo = lyDo;
+    }
+    
+    public double getSoTienPhat() {
+        return soTienPhat;
+    }
+    
+    public void setSoTienPhat(double soTienPhat) {
+        this.soTienPhat = soTienPhat;
+    }
+    
+    public String getTenDocGia() {
+        return tenDocGia;
+    }
+    
+    public void setTenDocGia(String tenDocGia) {
+        this.tenDocGia = tenDocGia;
     }
     
     public LocalDate getNgayPhat() {
@@ -60,27 +72,47 @@ public class Fine {
         this.ngayPhat = ngayPhat;
     }
     
+    // For compatibility with existing code
+    public void setSoTien(double soTien) {
+        this.soTienPhat = soTien;
+    }
+    
+    public double getSoTien() {
+        return this.soTienPhat;
+    }
+
+    public String getMaMuonTra() {
+        return maMuonTra;
+    }
+
+    public void setMaMuonTra(String maMuonTra) {
+        this.maMuonTra = maMuonTra;
+    }
+
+    // For compatibility with FineManagementController
     public boolean isDaTra() {
-        return daTra;
+        return false; // Default implementation
     }
     
-    public void setDaTra(boolean daTra) {
-        this.daTra = daTra;
+    public String getTrangThai() {
+        return "Unpaid"; // Default implementation
     }
     
+    public void setTrangThai(String trangThai) {
+        // No-op implementation for compatibility
+    }
+
     public LocalDate getNgayTra() {
         return ngayTra;
     }
-    
+
     public void setNgayTra(LocalDate ngayTra) {
         this.ngayTra = ngayTra;
     }
-    
-    public String getTenDocGia() {
-        return tenDocGia;
-    }
-    
-    public void setTenDocGia(String tenDocGia) {
-        this.tenDocGia = tenDocGia;
+
+    @Override
+    public String toString() {
+        return "Fine [maPhieuPhat=" + maPhieuPhat + ", maPhieuMuon=" + maMuonTra + 
+               ", lyDo=" + lyDo + ", soTienPhat=" + soTienPhat + "]";
     }
 }

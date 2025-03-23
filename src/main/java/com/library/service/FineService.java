@@ -50,6 +50,9 @@ public class FineService {
             fine.setNgayPhat(LocalDate.now());
         }
         
+        // Remove the call to setNgayHenTra since it doesn't exist in Fine class
+        // fine.setNgayHenTra(null);
+        
         if (!fine.isDaTra()) {
             fine.setNgayTra(null);
         }
@@ -92,11 +95,11 @@ public class FineService {
                 
                 // Create fine record
                 Fine fine = new Fine();
-                fine.setMaPhieuMuon(borrowingId);
+                fine.setMaMuonTra(borrowingId);
                 fine.setSoTien(fineAmount);
                 fine.setLyDo("Trả sách trễ " + daysLate + " ngày");
                 fine.setNgayPhat(LocalDate.now());
-                fine.setDaTra(false);
+                
                 
                 return fineDAO.save(fine);
             }

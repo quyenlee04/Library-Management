@@ -424,11 +424,36 @@ public class BorrowingDAO {
     }
     
     /**
-     * Updates an existing borrowing record in the database
+     * Updates a borrowing record in the database
      * 
-     * @param borrowing The borrowing record to update
-     * @return true if the update was successful, false otherwise
+     * @param borrowing The borrowing to update
+     * @return true if successful, false otherwise
+     * @throws SQLException if a database error occurs
      */
+    public boolean updateBorrowing(Borrowing borrowing) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = DBUtil.getInstance().getConnection();
+            String sql = "UPDATE muontra SET ngayTraThucTe = ? WHERE maMuonTra = ?";
+            stmt = conn.prepareStatement(sql);
+            
+            stmt.setDate(1, borrowing.getNgayTraThucTe() != null ? 
+                         Date.valueOf(borrowing.getNgayTraThucTe()) : null);
+            stmt.setInt(2, Integer.parseInt(borrowing.getMaMuonTra()));
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating borrowing: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        } finally {
+            closeResources(conn, stmt, null);
+        }
+    }
+    
     public boolean update(Borrowing borrowing) {
         Connection conn = null;
         PreparedStatement stmt = null;

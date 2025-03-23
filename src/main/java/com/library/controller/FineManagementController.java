@@ -93,7 +93,7 @@ public class FineManagementController implements Initializable {
         });
         
         colNgayTra.setCellValueFactory(cellData -> {
-            LocalDate date = cellData.getValue().getNgayTra();
+            LocalDate date = cellData.getValue().getNgayPhat();
             return new SimpleStringProperty(date != null ? date.format(dateFormatter) : "");
         });
         
@@ -134,7 +134,7 @@ public class FineManagementController implements Initializable {
             return;
         }
         
-        boolean success = fineService.payFine(selectedFine.getMaPhiPhat());
+        boolean success = fineService.payFine(selectedFine.getMaPhieuPhat());
         
         if (success) {
             AlertUtil.showInformation("Thành công", "Đã thanh toán phiếu phạt thành công");
@@ -156,8 +156,8 @@ public class FineManagementController implements Initializable {
         ObservableList<Fine> filteredList = FXCollections.observableArrayList();
         
         for (Fine fine : fineList) {
-            if (fine.getMaPhiPhat().toLowerCase().contains(searchText) ||
-                fine.getMaPhieuMuon().toLowerCase().contains(searchText) ||
+            if (fine.getMaPhieuPhat().toLowerCase().contains(searchText) ||
+                fine.getMaMuonTra().toLowerCase().contains(searchText) ||
                 fine.getTenDocGia().toLowerCase().contains(searchText) ||
                 fine.getLyDo().toLowerCase().contains(searchText)) {
                 filteredList.add(fine);
