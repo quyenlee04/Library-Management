@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.library.controller.ProcessBorrowingController">
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #3498db;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleBack" text="Back">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Label text="Process Borrowing" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+      <VBox spacing="15.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <HBox spacing="10.0">
+               <children>
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Reader Information" styleClass="section-title">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox spacing="10.0">
+                           <children>
+                              <TextField fx:id="txtReaderSearch" promptText="Search reader by ID, name, or phone" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#handleSearchReader" text="Search" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tblReaders" prefHeight="150.0" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="colReaderId" prefWidth="100.0" text="ID" />
+                              <TableColumn fx:id="colReaderName" prefWidth="200.0" text="Name" />
+                              <TableColumn fx:id="colReaderPhone" prefWidth="150.0" text="Phone" />
+                              <TableColumn fx:id="colReaderEmail" prefWidth="200.0" text="Email" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Book Information" styleClass="section-title">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox spacing="10.0">
+                           <children>
+                              <TextField fx:id="txtBookSearch" promptText="Search book by ID, title, or author" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#handleSearchBook" text="Search" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tblBooks" prefHeight="150.0" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="colBookId" prefWidth="100.0" text="ID" />
+                              <TableColumn fx:id="colBookTitle" prefWidth="250.0" text="Title" />
+                              <TableColumn fx:id="colBookAuthor" prefWidth="150.0" text="Author" />
+                              <TableColumn fx:id="colBookStatus" prefWidth="100.0" text="Status" />
+                              <TableColumn fx:id="colBookAction" prefWidth="100.0" text="Action" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Selected Books" styleClass="section-title">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tblSelectedBooks" prefHeight="150.0" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="colSelectedBookId" prefWidth="100.0" text="ID" />
+                              <TableColumn fx:id="colSelectedBookTitle" prefWidth="250.0" text="Title" />
+                              <TableColumn fx:id="colSelectedBookAuthor" prefWidth="150.0" text="Author" />
+                              <TableColumn fx:id="colSelectedBookAction" prefWidth="100.0" text="Action" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label text="Borrow Date:" />
+                  <DatePicker fx:id="dpBorrowDate" />
+                  <Label text="Due Date:" />
+                  <DatePicker fx:id="dpDueDate" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleClear" text="Clear" />
+                  <Button mnemonicParsing="false" onAction="#handleProcessBorrowing" text="Process Borrowing" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

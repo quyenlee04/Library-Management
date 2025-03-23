@@ -80,7 +80,7 @@ public class BookManagementController implements Initializable {
         
         // Initialize search type combo box
         searchTypeComboBox.setItems(FXCollections.observableArrayList(
-                "All", "Title", "Author", "ISBN", "Category"));
+                "All", "Title", "Author" , "Category"));
         searchTypeComboBox.setValue("All");
         
         // Initialize table columns
@@ -153,9 +153,6 @@ public class BookManagementController implements Initializable {
                     break;
                 case "Author":
                     books = bookService.findByAuthor(searchTerm);
-                    break;
-                case "ISBN":
-                    books = bookService.findByIsbn(searchTerm);
                     break;
                 case "Category":
                     books = bookService.findByCategory(searchTerm);

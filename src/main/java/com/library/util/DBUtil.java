@@ -67,4 +67,39 @@ public class DBUtil {
             }
         }
     }
+    
+    /**
+     * Begins a transaction by setting auto-commit to false
+     * @param conn The database connection
+     * @throws SQLException if a database access error occurs
+     */
+    public static void beginTransaction(Connection conn) throws SQLException {
+        if (conn != null) {
+            conn.setAutoCommit(false);
+        }
+    }
+    
+    /**
+     * Commits a transaction
+     * @param conn The database connection
+     * @throws SQLException if a database access error occurs
+     */
+    public static void commitTransaction(Connection conn) throws SQLException {
+        if (conn != null) {
+            conn.commit();
+            conn.setAutoCommit(true);
+        }
+    }
+    
+    /**
+     * Rolls back a transaction
+     * @param conn The database connection
+     * @throws SQLException if a database access error occurs
+     */
+    public static void rollbackTransaction(Connection conn) throws SQLException {
+        if (conn != null) {
+            conn.rollback();
+            conn.setAutoCommit(true);
+        }
+    }
 }

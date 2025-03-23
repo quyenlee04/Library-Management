@@ -22,7 +22,7 @@ public class BookDialogController {
     private static final List<String> CATEGORIES = Arrays.asList(
             "Fiction", "Non-Fiction", "Science", "Technology", "Computer Science", 
             "Programming", "Mathematics", "History", "Biography", "Self-Help",
-            "Business", "Economics", "Philosophy", "Psychology", "Religion",
+            "Business", "Economics","Novel", "Philosophy", "Psychology", "Religion",
             "Art", "Music", "Travel", "Cooking", "Health", "Other"
     );
     

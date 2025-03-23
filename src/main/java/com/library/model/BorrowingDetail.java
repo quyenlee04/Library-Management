@@ -2,33 +2,28 @@ package com.library.model;
 
 import java.time.LocalDate;
 
-public class Borrowing {
+public class BorrowingDetail {
+    // Borrowing information
     private String maMuonTra;
-    private String maDocGia;
-    private String maSach;
     private LocalDate ngayMuon;
     private LocalDate ngayHenTra;
     private LocalDate ngayTraThucTe;
     private String trangThai;
-    private String ghiChu;
     
-    // For joining with other tables
+    // Reader information
+    private String maDocGia;
     private String tenDocGia;
+    private String email;
+    private String soDienThoai;
+    
+    // Book information
+    private String maSach;
     private String tenSach;
+    private String tacGia;
+    private String theLoai;
     
-    public Borrowing() {
-    }
-    
-    public Borrowing(String maMuonTra, String maDocGia, String maSach, LocalDate ngayMuon, 
-                    LocalDate ngayHenTra, LocalDate ngayTraThucTe, String trangThai, String ghiChu) {
-        this.maMuonTra = maMuonTra;
-        this.maDocGia = maDocGia;
-        this.maSach = maSach;
-        this.ngayMuon = ngayMuon;
-        this.ngayHenTra = ngayHenTra;
-        this.ngayTraThucTe = ngayTraThucTe;
-        this.trangThai = trangThai;
-        this.ghiChu = ghiChu;
+    // Default constructor
+    public BorrowingDetail() {
     }
     
     // Getters and Setters
@@ -38,22 +33,6 @@ public class Borrowing {
     
     public void setMaMuonTra(String maMuonTra) {
         this.maMuonTra = maMuonTra;
-    }
-    
-    public String getMaDocGia() {
-        return maDocGia;
-    }
-    
-    public void setMaDocGia(String maDocGia) {
-        this.maDocGia = maDocGia;
-    }
-    
-    public String getMaSach() {
-        return maSach;
-    }
-    
-    public void setMaSach(String maSach) {
-        this.maSach = maSach;
     }
     
     public LocalDate getNgayMuon() {
@@ -88,12 +67,12 @@ public class Borrowing {
         this.trangThai = trangThai;
     }
     
-    public String getGhiChu() {
-        return ghiChu;
+    public String getMaDocGia() {
+        return maDocGia;
     }
     
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
+    public void setMaDocGia(String maDocGia) {
+        this.maDocGia = maDocGia;
     }
     
     public String getTenDocGia() {
@@ -104,11 +83,51 @@ public class Borrowing {
         this.tenDocGia = tenDocGia;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+    
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+    
+    public String getMaSach() {
+        return maSach;
+    }
+    
+    public void setMaSach(String maSach) {
+        this.maSach = maSach;
+    }
+    
     public String getTenSach() {
         return tenSach;
     }
     
     public void setTenSach(String tenSach) {
         this.tenSach = tenSach;
+    }
+    
+    public String getTacGia() {
+        return tacGia;
+    }
+    
+    public void setTacGia(String tacGia) {
+        this.tacGia = tacGia;
+    }
+    
+    public String getTheLoai() {
+        return theLoai;
+    }
+    
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
     }
 }

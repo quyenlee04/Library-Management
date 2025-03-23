@@ -2,6 +2,8 @@ package com.library.view;
 
 import java.io.IOException;
 
+import com.library.util.AlertUtil;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -102,8 +104,23 @@ public class ViewManager {
         loadView("/fxml/admin_user_activity_report.fxml", "User Activity Report");
     }
     
+    /**
+     * Switches to the process borrowing view
+     */
     public void switchToProcessBorrowingView() {
-        loadView("/fxml/process_borrowing.fxml", "Process Borrowing");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/process_borrowing.fxml"));
+            Parent root = loader.load();
+            
+            Scene scene = new Scene(root);
+            
+            primaryStage.setTitle("Library Management System - Process Borrowing");
+            primaryStage.setScene(scene);
+            primaryStage.centerOnScreen();
+        } catch (IOException e) {
+            AlertUtil.showError("Error", "Failed to load process borrowing view: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     public void switchToProcessReturnView() {
@@ -160,6 +177,33 @@ public class ViewManager {
             System.err.println("Error loading member view: " + e.getMessage());
         }
     }
+    public void switchToReaderManagementView() {
+        try {
+            loadView("/fxml/reader_management.fxml", "Reader Management");
+        } catch (Exception e) {
+            System.err.println("Error switching to reader management view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void switchToFineManagementView() {
+        try {
+            loadView("/fxml/fine_management.fxml", "Fine Management");
+        } catch (Exception e) {
+            System.err.println("Error switching to fine management view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void switchToReportsView() {
+        try {
+            loadView("/fxml/reports_dashboard.fxml", "Reports Dashboard");
+        } catch (Exception e) {
+            System.err.println("Error switching to reports view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
     private void loadView(String fxmlPath, String title) {
         try {
             // Check if resource exists before attempting to load it

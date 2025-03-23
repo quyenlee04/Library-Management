@@ -21,8 +21,9 @@ public class Main extends Application {
         
         // Set up the scene
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-        
+        if (getClass().getResource("/css/login.css") != null) {
+            scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+        }
         // Configure the stage
         primaryStage.setTitle("Library Management System");
         primaryStage.setScene(scene);

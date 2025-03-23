@@ -71,8 +71,12 @@ public class BookService {
         return bookDAO.delete(id);
     }
     
+    /**
+     * Gets the total number of books in the system
+     * @return The total number of books
+     */
     public int getTotalBooks() {
-        return getAllBooks().size();
+        return bookDAO.findAll().size();
     }
     
     public int getAvailableBooks() {

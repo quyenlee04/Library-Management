@@ -21,9 +21,9 @@
                 <Menu text="Users">
                     <MenuItem text="Manage Users" onAction="#handleManageUsers"/>
                 </Menu>
-                <Menu text="Books">
+                <!-- <Menu text="Books">
                     <MenuItem text="Manage Books" onAction="#handleManageBooks"/>
-                </Menu>
+                </Menu> -->
                 <Menu text="Help">
                     <MenuItem text="About" onAction="#handleAbout"/>
                 </Menu>
@@ -55,20 +55,7 @@
                     onAction="#handleUserManagement"
                     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                     
-            <Button text="Book Management" 
-                    prefWidth="200" prefHeight="100"
-                    onAction="#handleBookManagement"
-                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    
-            <Button text="Borrowing Management" 
-                    prefWidth="200" prefHeight="100"
-                    onAction="#handleBorrowingManagement"
-                    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    
-            <Button text="Reports" 
-                    prefWidth="200" prefHeight="100"
-                    onAction="#handleReports"
-                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+           
         </GridPane>
     </center>
     

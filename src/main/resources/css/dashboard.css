@@ -1,133 +1,94 @@
 /* Dashboard Styles */
-
-.dashboard-container {
+.root {
     -fx-background-color: #f5f5f5;
-    -fx-padding: 20px;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Sidebar styles */
+.sidebar {
+    -fx-background-color: #34495e;
+    -fx-padding: 10px;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #2c3e50;
+}
+
+.nav-icon {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-min-width: 25px;
 }
 
 /* Header styles */
-.header {
-    -fx-background-color: white;
-    -fx-padding: 15px 20px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 5);
-    -fx-background-radius: 10px;
-}
-
-.header-title {
-    -fx-font-size: 20px;
+.header-label {
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
-}
-
-.user-info {
-    -fx-spacing: 10px;
-    -fx-alignment: center-right;
-}
-
-.user-name {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
-
-.user-role {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7f8c8d;
 }
 
 /* Dashboard cards */
 .dashboard-card {
     -fx-background-color: white;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 8);
-    -fx-padding: 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 5);
 }
 
 .card-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
 }
 
 .card-value {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #3498db;
-}
-
-.card-subtitle {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7f8c8d;
-}
-
-/* Recent activity section */
-.activity-list {
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
-}
-
-.activity-item {
-    -fx-background-color: white;
-    -fx-background-radius: 5px;
-    -fx-border-color: #ecf0f1;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-    -fx-spacing: 10px;
-}
-
-.activity-title {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
 }
 
-.activity-time {
-    -fx-font-size: 12px;
-    -fx-text-fill: #7f8c8d;
+.card-icon {
+    -fx-font-size: 16px;
 }
 
-/* Book management section */
-.book-grid {
-    -fx-hgap: 20px;
-    -fx-vgap: 20px;
-    -fx-padding: 20px;
-}
-
-.book-card {
-    -fx-background-color: white;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 8);
-    -fx-padding: 15px;
-}
-
-.book-title {
+.section-title {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10px 0;
 }
 
-.book-author {
-    -fx-font-size: 14px;
-    -fx-text-fill: #34495e;
+/* Table styles */
+.table-view {
+    -fx-background-color: transparent;
 }
 
-.book-status {
-    -fx-font-size: 12px;
-    -fx-padding: 5px 10px;
-    -fx-background-radius: 15px;
+.table-view .column-header {
+    -fx-background-color: #3498db;
 }
 
-.status-available {
-    -fx-background-color: #2ecc71;
+.table-view .column-header .label {
     -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
 
-.status-borrowed {
-    -fx-background-color: #e74c3c;
-    -fx-text-fill: white;
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #ecf0f1;
+    -fx-border-width: 0 0 1 0;
 }
 
-.status-reserved {
-    -fx-background-color: #f39c12;
-    -fx-text-fill: white;
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #d6eaf8;
 }

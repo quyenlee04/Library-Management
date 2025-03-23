@@ -3,41 +3,180 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.library.controller.LibrarianDashboardController"
             prefHeight="600.0" prefWidth="800.0">
-
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
-            <padding>
-                <Insets top="10" right="20" bottom="10" left="20"/>
-            </padding>
-            <Label styleClass="header-title" text="Librarian Dashboard"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#handleLogout"/>
-        </HBox>
-    </top>
-
+    
     <left>
-        <VBox styleClass="sidebar" prefWidth="200" spacing="10">
-            <Button text="Dashboard" styleClass="nav-button, active"/>
-            <Button text="Manage Books" styleClass="nav-button"/>
-            <Button text="Manage Borrowings" styleClass="nav-button"/>
-            <Button text="Manage Members" styleClass="nav-button"/>
-            <Button text="Reports" styleClass="nav-button"/>
+        <VBox prefWidth="200.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="btnBooks" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBooksManagement" styleClass="nav-button" text="Books Management">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="📚" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnReaders" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleReadersManagement" styleClass="nav-button" text="Readers Management">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="👥" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnBorrowings" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBorrowingsManagement" styleClass="nav-button" text="Process Borrowings">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="➡️" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnReturns" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleReturnsManagement" styleClass="nav-button" text="Process Returns">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="⬅️" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnFines" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleFinesManagement" styleClass="nav-button" text="Manage Fines">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="💰" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnReports" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleReports" styleClass="nav-button" text="Reports">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="📊" />
+                    </graphic>
+                </Button>
+                <Separator />
+                <Button fx:id="btnLogout" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogout" styleClass="nav-button" text="Logout">
+                    <graphic>
+                        <Label styleClass="nav-icon" text="🚪" />
+                    </graphic>
+                </Button>
+            </children>
         </VBox>
     </left>
-
     <center>
-        <VBox alignment="CENTER" spacing="20">
+        <VBox spacing="20.0" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
-            <Text styleClass="h1" text="Welcome to Librarian Dashboard"/>
-            <Text styleClass="text-normal" text="You have successfully logged in as a Librarian"/>
+            <children>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Label styleClass="header-label" text="Librarian Dashboard">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                
+                <!-- Dashboard Statistics Cards -->
+                <HBox spacing="20.0">
+                    <children>
+                        <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="card-title" text="Total Books">
+                                    <graphic>
+                                        <Label styleClass="card-icon" text="📚" />
+                                    </graphic>
+                                </Label>
+                                <Label fx:id="lblTotalBooks" styleClass="card-value" text="0" />
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                        </VBox>
+                        <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="card-title" text="Total Readers">
+                                    <graphic>
+                                        <Label styleClass="card-icon" text="👥" />
+                                    </graphic>
+                                </Label>
+                                <Label fx:id="lblTotalReaders" styleClass="card-value" text="0" />
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                
+                <HBox spacing="20.0">
+                    <children>
+                        <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="card-title" text="Active Borrowings">
+                                    <graphic>
+                                        <Label styleClass="card-icon" text="➡️" />
+                                    </graphic>
+                                </Label>
+                                <Label fx:id="lblActiveBorrowings" styleClass="card-value" text="0" />
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                        </VBox>
+                        <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="card-title" text="Overdue Books">
+                                    <graphic>
+                                        <Label styleClass="card-icon" text="⚠️" />
+                                    </graphic>
+                                </Label>
+                                <Label fx:id="lblOverdueBooks" styleClass="card-value" text="0" />
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                
+                <!-- Active Borrowings Table -->
+                <VBox spacing="10.0" styleClass="dashboard-card">
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding>
+                    <children>
+                        <Label text="Active Borrowings" styleClass="section-title">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Label>
+                        
+                        <TableView fx:id="tblActiveBorrowings" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colBorrowId" text="Borrow ID" prefWidth="100.0"/>
+                                <TableColumn fx:id="colBookTitle" text="Book Title" prefWidth="200.0"/>
+                                <TableColumn fx:id="colReaderName" text="Reader Name" prefWidth="150.0"/>
+                                <TableColumn fx:id="colBorrowDate" text="Borrow Date" prefWidth="100.0"/>
+                                <TableColumn fx:id="colDueDate" text="Due Date" prefWidth="100.0"/>
+                                <TableColumn fx:id="colStatus" text="Status" prefWidth="100.0"/>
+                            </columns>
+                        </TableView>
+                        
+                        <HBox alignment="CENTER_RIGHT">
+                            <Button text="Refresh" onAction="#handleRefresh" styleClass="btn-primary"/>
+                        </HBox>
+                    </children>
+                </VBox>
+                
+                <!-- Recent Activities Section -->
+                <VBox styleClass="dashboard-card" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="section-title" text="Recent Activities" />
+                        <TableView fx:id="tblRecentActivities" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colDate" prefWidth="120.0" text="Date" />
+                                <TableColumn fx:id="colActivity" prefWidth="350.0" text="Activity" />
+                                <TableColumn fx:id="colUser" prefWidth="150.0" text="User" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
         </VBox>
     </center>
 </BorderPane>

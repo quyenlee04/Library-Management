@@ -1,19 +1,55 @@
-
-2.2.3. Đặc tả Use Case cho Admin
-- Quản lý tài khoản người dùng
-•	Mô tả: Admin tạo, sửa, xóa tài khoản của Thủ thư và Độc giả.
+2.2.1. Đặc tả Use Case cho Thủ thư
+- Thêm sách
+•	Mô tả: Thủ thư thêm sách mới vào hệ thống thư viện.
+•	Tác nhân: Thủ thư.
 •	Luồng chính:
-1.	Tìm kiếm tài khoản.
-2.	Thực hiện thao tác quản lý (thêm/sửa/xóa).
-3.	Hệ thống cập nhật.
-- Phân quyền người dùng
-•	Mô tả: Admin phân quyền theo vai trò.
+1.	Thủ thư nhập thông tin sách (tên sách, tác giả, năm xuất bản...).
+2.	Hệ thống kiểm tra tính hợp lệ của dữ liệu.
+3.	Hệ thống lưu thông tin sách vào cơ sở dữ liệu.
+4.	Hiển thị thông báo thêm thành công.
+•	Luồng ngoại lệ:
+1.	2a. Thông tin nhập không hợp lệ → Hiển thị thông báo lỗi.
+- Sửa sách
+•	Mô tả: Chỉnh sửa thông tin sách đã có trong hệ thống.
 •	Luồng chính:
-1.	Chọn người dùng cần phân quyền.
-2.	Chọn quyền tương ứng.
-3.	Hệ thống lưu thay đổi.
-- Cấu hình hệ thống
-•	Mô tả: Admin thiết lập các thông số hệ thống thư viện.
+1.	Thủ thư tìm kiếm sách cần chỉnh sửa.
+2.	Chọn sách và cập nhật thông tin mới.
+3.	Hệ thống xác nhận và lưu thay đổi.
+4.	Hiển thị thông báo sửa thành công.
+- Xóa sách
+•	Mô tả: Thủ thư xóa sách khỏi hệ thống.
 •	Luồng chính:
-1.	Chỉnh sửa các thông số hệ thống.
-2.	Lưu thay đổi.
+1.	Tìm sách cần xóa.
+2.	Xác nhận xóa.
+3.	Hệ thống cập nhật trạng thái sách.
+4.	Hiển thị thông báo xóa thành công.
+•	Luồng ngoại lệ:
+1.	2a. Sách đang được mượn → Không thể xóa, hiển thị thông báo.
+- Tìm kiếm sách
+•	Mô tả: Tra cứu sách theo nhiều tiêu chí (tên, tác giả, thể loại).
+•	Luồng chính:
+1.	Thủ thư nhập tiêu chí tìm kiếm.
+2.	Hệ thống hiển thị danh sách sách phù hợp.
+- Quản lý độc giả (Thêm, Sửa, Xóa)
+•	Mô tả: Thủ thư quản lý thông tin độc giả trong hệ thống.
+•	Luồng chính:
+1.	Nhập thông tin độc giả mới / tìm kiếm độc giả cần sửa hoặc xóa.
+2.	Hệ thống xác nhận và cập nhật cơ sở dữ liệu.
+- Quản lý mượn/trả sách
+•	Mô tả: Thủ thư thực hiện việc cho mượn và nhận trả sách.
+•	Luồng chính:
+1.	Tìm kiếm độc giả và sách cần mượn/trả.
+2.	Hệ thống kiểm tra điều kiện.
+3.	Cập nhật trạng thái sách.
+4.	Hiển thị kết quả.
+- Xem báo cáo thống kê
+•	Mô tả: Xem báo cáo về số sách đã mượn, sách còn trong kho, số lượt mượn theo thời gian.
+•	Luồng chính:
+1.	Chọn loại báo cáo.
+2.	Hệ thống hiển thị dữ liệu thống kê.
+- Quản lý phiếu phạt
+•	Mô tả: Quản lý danh sách độc giả bị phạt do trả sách trễ hoặc vi phạm.
+•	Luồng chính:
+1.	Xác nhận vi phạm.
+2.	Tạo phiếu phạt trong hệ thống.
+3.	Hiển thị danh sách phiếu phạt.
