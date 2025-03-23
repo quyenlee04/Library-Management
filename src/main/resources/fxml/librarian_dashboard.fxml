@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.library.controller.LibrarianDashboardController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label styleClass="header-title" text="Librarian Dashboard"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Logout" onAction="#handleLogout"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox styleClass="sidebar" prefWidth="200" spacing="10">
+            <Button text="Dashboard" styleClass="nav-button, active"/>
+            <Button text="Manage Books" styleClass="nav-button"/>
+            <Button text="Manage Borrowings" styleClass="nav-button"/>
+            <Button text="Manage Members" styleClass="nav-button"/>
+            <Button text="Reports" styleClass="nav-button"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Text styleClass="h1" text="Welcome to Librarian Dashboard"/>
+            <Text styleClass="text-normal" text="You have successfully logged in as a Librarian"/>
+        </VBox>
+    </center>
+</BorderPane>

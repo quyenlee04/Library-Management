@@ -1,0 +1,19 @@
+
+2.2.3. Đặc tả Use Case cho Admin
+- Quản lý tài khoản người dùng
+•	Mô tả: Admin tạo, sửa, xóa tài khoản của Thủ thư và Độc giả.
+•	Luồng chính:
+1.	Tìm kiếm tài khoản.
+2.	Thực hiện thao tác quản lý (thêm/sửa/xóa).
+3.	Hệ thống cập nhật.
+- Phân quyền người dùng
+•	Mô tả: Admin phân quyền theo vai trò.
+•	Luồng chính:
+1.	Chọn người dùng cần phân quyền.
+2.	Chọn quyền tương ứng.
+3.	Hệ thống lưu thay đổi.
+- Cấu hình hệ thống
+•	Mô tả: Admin thiết lập các thông số hệ thống thư viện.
+•	Luồng chính:
+1.	Chỉnh sửa các thông số hệ thống.
+2.	Lưu thay đổi.

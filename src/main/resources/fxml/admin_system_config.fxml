@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.library.controller.SystemConfigController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+    
+    <Label text="System Configuration" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+    
+    <TitledPane text="General Settings" expanded="true">
+        <VBox spacing="10">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Library Name:" prefWidth="150" />
+                <TextField fx:id="libraryNameField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Contact Email:" prefWidth="150" />
+                <TextField fx:id="contactEmailField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Contact Phone:" prefWidth="150" />
+                <TextField fx:id="contactPhoneField" HBox.hgrow="ALWAYS" />
+            </HBox>
+        </VBox>
+    </TitledPane>
+    
+    <TitledPane text="Borrowing Rules" expanded="true">
+        <VBox spacing="10">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Max Borrow Days:" prefWidth="150" />
+                <TextField fx:id="maxBorrowDaysField" prefWidth="100" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Max Books Per User:" prefWidth="150" />
+                <TextField fx:id="maxBooksPerUserField" prefWidth="100" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Fine Per Day (VND):" prefWidth="150" />
+                <TextField fx:id="finePerDayField" prefWidth="100" />
+            </HBox>
+        </VBox>
+    </TitledPane>
+    
+    <TitledPane text="Security Settings" expanded="true">
+        <VBox spacing="10">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Password Min Length:" prefWidth="150" />
+                <TextField fx:id="passwordMinLengthField" prefWidth="100" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Session Timeout (min):" prefWidth="150" />
+                <TextField fx:id="sessionTimeoutField" prefWidth="100" />
+            </HBox>
+            <CheckBox fx:id="requireStrongPasswordCheckbox" text="Require Strong Passwords" />
+        </VBox>
+    </TitledPane>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Reset to Defaults" onAction="#handleResetDefaults" />
+        <Button text="Save Changes" onAction="#handleSaveChanges" />
+    </HBox>
+</VBox>

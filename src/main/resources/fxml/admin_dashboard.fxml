@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.library.controller.AdminDashboardController"
+            prefHeight="600.0" prefWidth="800.0">
+    
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="File">
+                    <MenuItem text="Settings" onAction="#handleSettings"/>
+                    <SeparatorMenuItem />
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </Menu>
+                <Menu text="Users">
+                    <MenuItem text="Manage Users" onAction="#handleManageUsers"/>
+                </Menu>
+                <Menu text="Books">
+                    <MenuItem text="Manage Books" onAction="#handleManageBooks"/>
+                </Menu>
+                <Menu text="Help">
+                    <MenuItem text="About" onAction="#handleAbout"/>
+                </Menu>
+            </MenuBar>
+            
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: #3498db;">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Admin Dashboard" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Logout" onAction="#handleLogout"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <GridPane hgap="20" vgap="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <Button text="User Management" 
+                    prefWidth="200" prefHeight="100"
+                    onAction="#handleUserManagement"
+                    GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    
+            <Button text="Book Management" 
+                    prefWidth="200" prefHeight="100"
+                    onAction="#handleBookManagement"
+                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    
+            <Button text="Borrowing Management" 
+                    prefWidth="200" prefHeight="100"
+                    onAction="#handleBorrowingManagement"
+                    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    
+            <Button text="Reports" 
+                    prefWidth="200" prefHeight="100"
+                    onAction="#handleReports"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        </GridPane>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #f0f0f0;">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <Label fx:id="statusLabel" text="Ready"/>
+        </HBox>
+    </bottom>
+</BorderPane>

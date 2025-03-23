@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.library.controller.UserManagementController">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <Button text="Back to Dashboard" onAction="#handleBackToDashboard" />
+            <Label text="User Management" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+    
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20" />
+            </padding>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="Search by username" prefWidth="200" />
+                <Button text="Search" onAction="#handleSearch" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Add User" onAction="#handleAddUser" />
+                <!-- <Button text="Refresh" onAction="#handleRefresh" /> -->
+            </HBox>
+            
+            <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="80" />
+                    <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150" />
+                    <TableColumn fx:id="userTypeColumn" text="User Type" prefWidth="120" />
+                    <TableColumn fx:id="statusColumn" text="Status" prefWidth="100" />
+                    <TableColumn fx:id="createdAtColumn" text="Created At" prefWidth="150" />
+                    <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="210" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20" />
+            </padding>
+            <Label fx:id="statusLabel" text="Ready" />
+        </HBox>
+    </bottom>
+</BorderPane>

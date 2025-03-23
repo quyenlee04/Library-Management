@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.library.controller.LoginController"
+            prefHeight="400.0" prefWidth="600.0"
+            styleClass="login-pane">
+
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="30" bottom="20"/>
+            </padding>
+            <ImageView fitHeight="100" fitWidth="100" preserveRatio="true">
+                <Image url="@../images/logo.png"/>
+            </ImageView>
+            <Text styleClass="title-text" text="Hệ thống quản lý thư viện"/>
+
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="15" maxWidth="350">
+            <padding>
+                <Insets left="20" right="20"/>
+            </padding>
+
+            <TextField fx:id="usernameField" promptText="Tên đăng nhập"/>
+            <PasswordField fx:id="passwordField" promptText="Mật khẩu"/>
+
+            <Button fx:id="loginButton" text="Đăng nhập" styleClass="login-button"
+                    onAction="#handleLogin" maxWidth="Infinity"/>
+
+            <HBox alignment="CENTER" spacing="5">
+                <Text text="Chưa có tài khoản?"/>
+                <Hyperlink fx:id="registerLink" text="Đăng ký" onAction="#handleRegister"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER">
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+            <Text styleClass="copyright-text" text="© 2025 Hệ thống quản lý thư viện"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
