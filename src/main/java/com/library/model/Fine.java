@@ -11,6 +11,7 @@ public class Fine {
     private String lyDo;
     private double soTienPhat;
     private LocalDate ngayTra;
+    private String tenSach;
     
     // For display purposes
     private String tenDocGia;
@@ -114,5 +115,21 @@ public class Fine {
     public String toString() {
         return "Fine [maPhieuPhat=" + maPhieuPhat + ", maPhieuMuon=" + maMuonTra + 
                ", lyDo=" + lyDo + ", soTienPhat=" + soTienPhat + "]";
+    }
+
+    /**
+     * Gets the book title associated with this fine.
+     * @return the book title
+     */
+    public String getTenSach() {
+        return tenSach;
+    }
+
+    /**
+     * Sets the book title associated with this fine.
+     * @param tenSach the book title to set
+     */
+    public void setTenSach(String tenSach) {
+        this.tenSach = tenSach;
     }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.library.dao.FineDAO;
 import com.library.model.Borrowing;
@@ -129,6 +130,54 @@ public class FineService {
                 .filter(fine -> fine.isDaTra() && fine.getNgayTra() != null)
                 .filter(fine -> !fine.getNgayTra().isBefore(startDate) && !fine.getNgayTra().isAfter(endDate))
                 .mapToDouble(Fine::getSoTien)
+                .sum();
+    }
+    
+    /**
+     * Gets fines within a specific date range
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return list of fines in the date range
+     */
+    public List<Fine> getFinesByDateRange(LocalDate startDate, LocalDate endDate) {
+        List<Fine> allFines = fineDAO.findAll();
+        return allFines.stream()
+                .filter(fine -> !fine.getNgayPhat().isBefore(startDate) && !fine.getNgayPhat().isAfter(endDate))
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Gets the total amount of fines
+     * @return the total fine amount
+     */
+    public double getTotalFineAmount() {
+        List<Fine> allFines = fineDAO.findAll();
+        return allFines.stream()
+                .mapToDouble(Fine::getSoTienPhat)
+                .sum();
+    }
+    
+    /**
+     * Gets the total amount of paid fines
+     * @return the total paid fine amount
+     */
+    public double getPaidFineAmount() {
+        List<Fine> allFines = fineDAO.findAll();
+        return allFines.stream()
+                .filter(Fine::isDaTra)
+                .mapToDouble(Fine::getSoTienPhat)
+                .sum();
+    }
+    
+    /**
+     * Gets the total amount of unpaid fines
+     * @return the total unpaid fine amount
+     */
+    public double getUnpaidFineAmount() {
+        List<Fine> allFines = fineDAO.findAll();
+        return allFines.stream()
+                .filter(fine -> !fine.isDaTra())
+                .mapToDouble(Fine::getSoTienPhat)
                 .sum();
     }
 }

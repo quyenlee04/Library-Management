@@ -204,6 +204,31 @@ public class ViewManager {
         }
     }
     
+    public void switchToReportsDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/reports_dashboard.fxml"));
+            Parent root = loader.load();
+            
+            Scene scene = new Scene(root);
+            
+            // Check if the CSS resource exists before adding it
+            java.net.URL cssResource = getClass().getResource("/css/dashboard.css");
+            if (cssResource != null) {
+                scene.getStylesheets().add(cssResource.toExternalForm());
+            } else {
+                System.err.println("CSS resource not found: /css/dashboard.css");
+            }
+            
+            primaryStage.setTitle("Library Management System - Reports Dashboard");
+            primaryStage.setScene(scene);
+            primaryStage.centerOnScreen();
+        } catch (IOException e) {
+            System.err.println("Error loading reports dashboard: " + e.getMessage());
+            e.printStackTrace();
+            AlertUtil.showError("Error", "Could not load reports dashboard.");
+        }
+    }
+    
     private void loadView(String fxmlPath, String title) {
         try {
             // Check if resource exists before attempting to load it

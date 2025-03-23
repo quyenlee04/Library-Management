@@ -1,119 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.library.controller.ProcessReturnController"
-            prefHeight="600.0" prefWidth="800.0">
-    
-    <top>
-        <VBox spacing="10.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="20.0" right="20.0" bottom="10.0" left="20.0" />
-            </padding>
-            <children>
-                <Label text="Process Book Return" styleClass="header-label">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Label>
-                <Separator />
-            </children>
-        </VBox>
-    </top>
-    
-    <center>
-        <VBox spacing="15.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="10.0" right="20.0" bottom="20.0" left="20.0" />
-            </padding>
-            <children>
-                <!-- Search Section -->
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
-                    <children>
-                        <Label text="Borrowing ID:" />
-                        <TextField fx:id="txtBorrowId" prefWidth="200.0" />
-                        <Button fx:id="btnSearch" text="Search" onAction="#handleSearch" styleClass="btn-primary" />
-                    </children>
-                </HBox>
-                
-                <!-- Borrowing Details Table -->
-                <Label text="Borrowing Details:" styleClass="section-title">
-                    <font>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.library.controller.ProcessReturnController">
+   <children>
+      <VBox layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="772.0" spacing="10.0">
+         <children>
+            <Label text="Process Book Return">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Borrowing ID:" />
+                  <TextField fx:id="txtBorrowId" prefHeight="25.0" prefWidth="200.0" />
+                  <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#handleSearch" text="Search" />
+               </children>
+            </HBox>
+            <TableView fx:id="tblBorrowingDetails" prefHeight="200.0" prefWidth="772.0">
+               <columns>
+               <TableColumn fx:id="colBorrowId" text="Borrow ID" />
+                  <TableColumn fx:id="colBookId" prefWidth="75.0" text="Book ID" />
+                  <TableColumn fx:id="colBookTitle" prefWidth="150.0" text="Book Title" />
+                  <TableColumn fx:id="colReaderId" prefWidth="75.0" text="Reader ID" />
+                  <TableColumn fx:id="colReaderName" prefWidth="150.0" text="Reader Name" />
+                  <TableColumn fx:id="colBorrowDate" prefWidth="100.0" text="Borrow Date" />
+                  <TableColumn fx:id="colDueDate" prefWidth="100.0" text="Due Date" />
+               </columns>
+            </TableView>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label text="Return Date:" />
+                  <DatePicker fx:id="dpReturnDate" />
+                  <Label text="Book Condition:" />
+                  <ComboBox fx:id="cmbBookCondition" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label fx:id="lblStatus" text="">
+                     <font>
                         <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <TableView fx:id="tblBorrowingDetails" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="colBorrowId" prefWidth="100.0" text="Borrowing ID" />
-                        <TableColumn fx:id="colBookId" text="Book ID" prefWidth="80.0" />
-                        <TableColumn fx:id="colBookTitle" text="Book Title" prefWidth="200.0" />
-                        <TableColumn fx:id="colReaderId" text="Reader ID" prefWidth="80.0" />
-                        <TableColumn fx:id="colReaderName" text="Reader Name" prefWidth="150.0" />
-                        <TableColumn fx:id="colBorrowDate" text="Borrow Date" prefWidth="100.0" />
-                        <TableColumn fx:id="colDueDate" text="Due Date" prefWidth="100.0" />
-                        <!-- Add the Borrowing ID column to the TableView -->
-                        
-                    </columns>
-                </TableView>
-                
-                <!-- Return Details Section -->
-                <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="250.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Label text="Return Date:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                        <DatePicker fx:id="dpReturnDate" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-                        
-                        <Label text="Status:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                        <Label fx:id="lblStatus" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                        
-                        <Label text="Fine:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                        <Label fx:id="lblFine" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-                    </children>
-                </GridPane>
-                
-                <!-- Action Buttons -->
-                <HBox spacing="10.0" alignment="CENTER_RIGHT">
-                    <children>
-                        <Button fx:id="btnCancel" text="Cancel" onAction="#handleCancel" styleClass="btn-secondary" />
-                        <Button fx:id="btnReturn" text="Process Return" onAction="#handleReturn" styleClass="btn-primary" />
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
-    </center>
-    
-    <bottom>
-        <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="10.0" right="20.0" bottom="20.0" left="20.0" />
-            </padding>
-            <children>
-                <Button fx:id="btnBack" text="Back to Dashboard" onAction="#handleBack" />
-            </children>
-        </HBox>
-    </bottom>
-</BorderPane>
+                     </font>
+                  </Label>
+                  <Label fx:id="lblFine" text="">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#handleReturn" text="Process Return" />
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+                  <Button fx:id="btnBack" mnemonicParsing="false" onAction="#handleBack" text="Back to Dashboard" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

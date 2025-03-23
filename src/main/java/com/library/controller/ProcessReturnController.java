@@ -30,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -56,6 +57,7 @@ public class ProcessReturnController implements Initializable {
     @FXML private Button btnReturn;
     @FXML private Button btnCancel;
     @FXML private Button btnBack;
+    @FXML private ComboBox<String> cmbBookCondition;
     
     private BorrowingService borrowingService;
     private BookService bookService;
@@ -83,6 +85,12 @@ public class ProcessReturnController implements Initializable {
         colReaderName.setCellValueFactory(new PropertyValueFactory<>("tenDocGia"));
         colBorrowDate.setCellValueFactory(new PropertyValueFactory<>("ngayMuon"));
         colDueDate.setCellValueFactory(new PropertyValueFactory<>("ngayHenTra"));
+        
+        // Check if ComboBox exists before trying to populate it
+        if (cmbBookCondition != null) {
+            cmbBookCondition.getItems().addAll("TOT", "HU_HONG", "MAT_SACH");
+            cmbBookCondition.setValue("TOT");
+        }
         
         // Format date columns
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -301,17 +309,29 @@ public class ProcessReturnController implements Initializable {
             return;
         }
         
+        // Get selected book condition
+        String bookCondition = cmbBookCondition.getValue();
+        
         // Confirm return
         Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
         confirmAlert.setTitle("Confirm Return");
         confirmAlert.setHeaderText("Confirm Book Return");
         
-        if (fineAmount > 0) {
-            confirmAlert.setContentText("This return is overdue and has a fine of $" + 
-                    String.format("%.2f", fineAmount) + ". Proceed with return?");
-        } else {
-            confirmAlert.setContentText("Confirm return of this book?");
+        // Create confirmation message
+        String confirmMessage = "Confirm return of this book";
+        
+        // Add condition-specific messages
+        if (!"TOT".equals(bookCondition)) {
+            confirmMessage += " with condition: " + bookCondition;
         }
+        
+        if (fineAmount > 0) {
+            confirmMessage += ". This return is overdue and has a fine of $" + 
+                    String.format("%.2f", fineAmount);
+        }
+        
+        confirmMessage += ". Proceed with return?";
+        confirmAlert.setContentText(confirmMessage);
         
         Optional<ButtonType> result = confirmAlert.showAndWait();
         
@@ -325,37 +345,71 @@ public class ProcessReturnController implements Initializable {
                 currentBorrowing.setTrangThai("DA_TRA"); // Set status to returned
                 borrowingService.updateBorrowing(currentBorrowing);
                 
-                // Update book status to available
+                // Update book status based on condition
                 Book book = bookService.getBookById(currentBorrowing.getMaSach()).orElse(null);
                 if (book != null) {
-                    // Use "AVAILABLE" instead of "Available" to match database enum values
-                    book.setTrangThai("AVAILABLE");
+                    if ("TOT".equals(bookCondition)) {
+                        book.setTrangThai("CHO_MUON"); // Book is in good condition, available for loan
+                    } else if ("HU_HONG".equals(bookCondition)) {
+                        book.setTrangThai("HU_HONG");  // Book is damaged
+                    } else if ("MAT_SACH".equals(bookCondition)) {
+                        book.setTrangThai("MAT_SACH"); // Book is lost
+                    }
                     bookService.updateBook(book);
                 }
                 
+                // Create fine for overdue if necessary
+                double totalFine = fineAmount;
+                String fineReason = "";
+                
+                
                 // Create fine if necessary
                 if (fineAmount > 0) {
+                    fineReason = "Overdue return";
+                }
+                if ("HU_HONG".equals(bookCondition)) {
+                    double damageFine = 50000.0; // Example: 50,000 VND for damaged books
+                    totalFine += damageFine;
+                    fineReason = fineReason.isEmpty() ? "Damaged book" : fineReason + " and damaged book";
+                } else if ("MAT_SACH".equals(bookCondition)) {
+                    double lostFine = 100000.0; // Example: 100,000 VND for lost books
+                    totalFine += lostFine;
+                    fineReason = fineReason.isEmpty() ? "Lost book" : fineReason + " and lost book";
+                }
+                
+                if (totalFine > 0) {
                     Fine fine = new Fine();
                     fine.setMaMuonTra(currentBorrowing.getMaMuonTra());
                     fine.setNgayPhat(LocalDate.now());
-                    fine.setSoTienPhat(fineAmount);
-                    fine.setLyDo("Overdue return");
+                    fine.setSoTienPhat(totalFine);
+                    fine.setLyDo(fineReason);
                     
                     fineService.createFine(fine);
                 }
-                
+                String activityDescription = "Book '" + currentBorrowing.getTenSach() + "' returned by " + 
+                currentBorrowing.getTenDocGia();
+        
+        if (!"TOT".equals(bookCondition)) {
+            activityDescription += " in " + bookCondition + " condition";
+        }
+        
                 // Log the activity
-                activityLogService.logActivity(
-                        "Return", 
-                        "Book '" + currentBorrowing.getTenSach() + "' returned by " + 
-                        currentBorrowing.getTenDocGia());
+                activityLogService.logActivity("Return", activityDescription);
                 
-                // Show success message
-                showAlert(AlertType.INFORMATION, "Success", "Book returned successfully" + 
-                        (fineAmount > 0 ? ". Fine of $" + String.format("%.2f", fineAmount) + " has been recorded." : "."));
+                String successMessage = "Book returned successfully";
+                if (totalFine > 0) {
+                    successMessage += ". Fine of $" + String.format("%.2f", totalFine) + " has been recorded";
+                }
+                
+                if (!"TOT".equals(bookCondition)) {
+                    successMessage += ". Book marked as " + bookCondition;
+                }
+                
+                showAlert(AlertType.INFORMATION, "Success", successMessage + ".");
                 
                 // Reload the active borrowings list
                 loadActiveBorrowings();
+                
                 
             } catch (Exception e) {
                 showAlert(AlertType.ERROR, "Error", "Error processing return: " + e.getMessage());

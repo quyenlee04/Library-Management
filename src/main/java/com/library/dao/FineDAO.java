@@ -35,9 +35,10 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "SELECT p.*, d.tenDocGia FROM phiphat p " +
-                         "JOIN phieumuon pm ON p.maPhieuMuon = pm.maPhieuMuon " +
-                         "JOIN docgia d ON pm.maDocGia = d.maDocGia";
+            String sql = "SELECT p.*, d.tenDocGia, s.tenSach FROM phieuphat p " +
+                         "JOIN muontra pm ON p.maMuonTra = pm.maMuonTra " +
+                         "JOIN docgia d ON pm.maDocGia = d.maDocGia " +
+                         "JOIN sach s ON pm.maSach = s.maSach";
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
             
@@ -62,10 +63,10 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "SELECT p.*, d.tenDocGia FROM phiphat p " +
-                         "JOIN phieumuon pm ON p.maPhieuMuon = pm.maPhieuMuon " +
+            String sql = "SELECT p.*, d.tenDocGia FROM phieuphat p " +
+                         "JOIN muontra pm ON p.maMuonTra = pm.maMuonTra " +
                          "JOIN docgia d ON pm.maDocGia = d.maDocGia " +
-                         "WHERE p.maPhiPhat = ?";
+                         "WHERE p.maPhieuPhat = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
             rs = stmt.executeQuery();
@@ -92,10 +93,10 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "SELECT p.*, d.tenDocGia FROM phiphat p " +
-                         "JOIN phieumuon pm ON p.maPhieuMuon = pm.maPhieuMuon " +
+            String sql = "SELECT p.*, d.tenDocGia FROM phieuphat p " +
+                         "JOIN muontra pm ON p.maMuonTra = pm.maMuonTra " +
                          "JOIN docgia d ON pm.maDocGia = d.maDocGia " +
-                         "WHERE p.maPhieuMuon = ?";
+                         "WHERE p.maMuonTra = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, borrowingId);
             rs = stmt.executeQuery();
@@ -122,8 +123,8 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "SELECT p.*, d.tenDocGia FROM phiphat p " +
-                         "JOIN phieumuon pm ON p.maPhieuMuon = pm.maPhieuMuon " +
+            String sql = "SELECT p.*, d.tenDocGia FROM phieuphat p " +
+                         "JOIN muontra pm ON p.maMuonTra = pm.maMuonTra " +
                          "JOIN docgia d ON pm.maDocGia = d.maDocGia " +
                          "WHERE p.daTra = 0";
             stmt = conn.prepareStatement(sql);
@@ -146,15 +147,17 @@ public class FineDAO {
     private Fine mapResultSetToFine(ResultSet rs) throws SQLException {
         Fine fine = new Fine();
         fine.setMaPhieuPhat(rs.getString("maPhieuPhat"));
-        fine.setMaMuonTra(rs.getString("maPhieuMuon"));
+        fine.setMaMuonTra(rs.getString("maMuonTra"));
         fine.setSoTienPhat(rs.getDouble("soTienPhat"));
         fine.setLyDo(rs.getString("lyDo"));
+        fine.setTenDocGia(rs.getString("tenDocGia"));
         
-        // Try to get tenDocGia if it exists in the result set
+        // Add this try-catch block to get the book title
         try {
-            fine.setTenDocGia(rs.getString("tenDocGia"));
+            fine.setTenSach(rs.getString("tenSach"));
         } catch (SQLException e) {
-            // Column might not be in the result set, ignore
+            // In case tenSach column is not in the result set
+            fine.setTenSach("");
         }
         
         return fine;
@@ -171,20 +174,24 @@ public class FineDAO {
             
             // If maPhieuPhat is null, exclude it from the INSERT statement to let database auto-increment
             if (fine.getMaPhieuPhat() == null || fine.getMaPhieuPhat().isEmpty()) {
-                sql = "INSERT INTO phieuphat (maPhieuMuon, lyDo, soTienPhat) " +
-                      "VALUES (?, ?, ?)";
+                sql = "INSERT INTO phieuphat (maMuonTra, soTienPhat, lyDo, ngayPhat, daTra) " +
+                      "VALUES (?, ?, ?, ?, ?)";
                 stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                stmt.setInt(1, Integer.parseInt(fine.getMaMuonTra()));
-                stmt.setString(2, fine.getLyDo());
-                stmt.setDouble(3, fine.getSoTienPhat());
-            } else {
-                sql = "INSERT INTO phieuphat (maPhieuPhat, maPhieuMuon, lyDo, soTienPhat) " +
-                      "VALUES (?, ?, ?, ?)";
-                stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, Integer.parseInt(fine.getMaPhieuPhat()));
-                stmt.setInt(2, Integer.parseInt(fine.getMaMuonTra()));
+                stmt.setString(1, fine.getMaMuonTra());
+                stmt.setDouble(2, fine.getSoTienPhat()); // Changed from getSoTien to getSoTienPhat
                 stmt.setString(3, fine.getLyDo());
-                stmt.setDouble(4, fine.getSoTienPhat());
+                stmt.setDate(4, Date.valueOf(fine.getNgayPhat()));
+                stmt.setBoolean(5, fine.isDaTra());
+            } else {
+                sql = "INSERT INTO phieuphat (maPhieuPhat, maMuonTra, soTienPhat, lyDo, ngayPhat, daTra) " +
+                      "VALUES (?, ?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, fine.getMaPhieuPhat());
+                stmt.setString(2, fine.getMaMuonTra());
+                stmt.setDouble(3, fine.getSoTienPhat()); // Changed from getSoTien to getSoTienPhat
+                stmt.setString(4, fine.getLyDo());
+                stmt.setDate(5, Date.valueOf(fine.getNgayPhat()));
+                stmt.setBoolean(6, fine.isDaTra());
             }
             
             int rowsAffected = stmt.executeUpdate();
@@ -193,7 +200,7 @@ public class FineDAO {
             if ((fine.getMaPhieuPhat() == null || fine.getMaPhieuPhat().isEmpty()) && rowsAffected > 0) {
                 rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
-                    fine.setMaPhieuPhat(String.valueOf(rs.getInt(1)));
+                    fine.setMaPhieuPhat(rs.getString(1));
                 }
             }
             
@@ -213,7 +220,7 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "UPDATE phieuphat SET maPhieuMuon = ?, lyDo = ?, soTienPhat = ? WHERE maPhieuPhat = ?";
+            String sql = "UPDATE phieuphat SET maMuonTra = ?, lyDo = ?, soTienPhat = ? WHERE maPhieuPhat = ?";
             
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(fine.getMaMuonTra()));
@@ -238,7 +245,7 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "UPDATE phiphat SET daTra = ?, ngayTra = ? WHERE maPhiPhat = ?";
+            String sql = "UPDATE phieuphat SET daTra = ?, ngayTra = ? WHERE maPhieuPhat = ?";
             
             stmt = conn.prepareStatement(sql);
             stmt.setBoolean(1, true);
@@ -262,7 +269,7 @@ public class FineDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "DELETE FROM phiphat WHERE maPhiPhat = ?";
+            String sql = "DELETE FROM phieuphat WHERE maPhieuPhat = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
             

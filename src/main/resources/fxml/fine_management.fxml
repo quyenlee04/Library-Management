@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.FineManagement"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+            fx:controller="com.library.controller.FineManagementController"
+            prefHeight="600.0" prefWidth="800.0">
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label text="Fine Management" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="txtSearch" promptText="Search by ID, Reader Name, or Book Title" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnSearch" text="Search" onAction="#handleSearch"/>
+                <Button fx:id="btnClear" text="Clear" onAction="#handleClear"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnBack" text="Back" onAction="#handleBack"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+            <TableView fx:id="tblFines" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colMaPhieuPhat" text="Fine ID" prefWidth="80"/>
+                    <TableColumn fx:id="colMaMuonTra" text="Borrowing ID" prefWidth="100"/>
+                    <TableColumn fx:id="colTenDocGia" text="Reader Name" prefWidth="150"/>
+                    <TableColumn fx:id="colTenSach" text="Book Title" prefWidth="200"/>
+                    <TableColumn fx:id="colNgayPhat" text="Fine Date" prefWidth="100"/>
+                    <TableColumn fx:id="colSoTienPhat" text="Amount" prefWidth="80"/>
+                    <TableColumn fx:id="colLyDo" text="Reason" prefWidth="150"/>
+                    <TableColumn fx:id="colTrangThai" text="Status" prefWidth="80"/>
+                    <TableColumn fx:id="colNgayTra" text="Payment Date" prefWidth="100"/>
+                </columns>
+                <placeholder>
+                    <Label text="No fines found"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label fx:id="lblTotalFines" text="Total Unpaid Fines: $0.00" style="-fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnMarkAsPaid" text="Mark as Paid" onAction="#handleMarkAsPaid"/>
+            <Button fx:id="btnExport" text="Export Report" onAction="#handleExport"/>
+        </HBox>
+    </bottom>
+</BorderPane>

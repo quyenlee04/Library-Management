@@ -184,7 +184,7 @@ public class LibrarianDashboardController implements Initializable {
     
     @FXML
     private void handleReports(ActionEvent event) {
-        ViewManager.getInstance().switchToReportsView();
+        ViewManager.getInstance().switchToReportsDashboard();
     }
     
     // Add these field declarations to your controller

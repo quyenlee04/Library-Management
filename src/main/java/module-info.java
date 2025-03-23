@@ -7,6 +7,10 @@ module com.library {
     requires javafx.fxml;
     requires java.sql;
     requires jbcrypt;
+    requires itextpdf;    // Changed from com.itextpdf.kernel
+    // Remove these lines as they're for iText 7
+    // requires com.itextpdf.layout;
+    // requires com.itextpdf.io;
     
     opens com.library to javafx.fxml;
     opens com.library.controller to javafx.fxml;

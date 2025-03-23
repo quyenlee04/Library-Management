@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -359,4 +361,33 @@ public class BorrowingService {
                 .limit(limit)
                 .collect(Collectors.toList());
     }
+
+    // Add these methods to your BorrowingService class
+
+/**
+ * Gets borrowings within a specific date range
+ * @param startDate the start date
+ * @param endDate the end date
+ * @return list of borrowings in the date range
+ */
+public List<Borrowing> getBorrowingsByDateRange(LocalDate startDate, LocalDate endDate) {
+    return borrowingDAO.findByDateRange(startDate, endDate);
+}
+
+/**
+ * Gets the count of borrowings for each reader
+ * @return map of reader names to borrowing counts
+ */
+public Map<String, Integer> getBorrowingsCountByReader() {
+    List<Borrowing> allBorrowings = borrowingDAO.findAll();
+    Map<String, Integer> readerCounts;
+        readerCounts = new HashMap<>();
+    
+    for (Borrowing borrowing : allBorrowings) {
+        String readerName = borrowing.getTenDocGia();
+        readerCounts.put(readerName, readerCounts.getOrDefault(readerName, 0) + 1);
+    }
+    
+    return readerCounts;
+}
 }

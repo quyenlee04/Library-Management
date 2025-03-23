@@ -490,4 +490,60 @@ public class BorrowingDAO {
             closeResources(conn, stmt, null);
         }
     }
+    
+    /**
+     * Finds borrowings within a specific date range
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return list of borrowings in the date range
+     */
+    public List<Borrowing> findByDateRange(LocalDate startDate, LocalDate endDate) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Borrowing> borrowings = new ArrayList<>();
+        
+        try {
+            conn = DBUtil.getInstance().getConnection();
+            String sql = "SELECT m.*, s.tenSach, d.tenDocGia FROM muontra m " +
+                         "JOIN sach s ON m.maSach = s.maSach " +
+                         "JOIN docgia d ON m.maDocGia = d.maDocGia " +
+                         "WHERE m.ngayMuon BETWEEN ? AND ? " +
+                         "ORDER BY m.ngayMuon DESC";
+        
+            stmt = conn.prepareStatement(sql);
+            stmt.setDate(1, Date.valueOf(startDate));
+            stmt.setDate(2, Date.valueOf(endDate));
+            
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Borrowing borrowing = new Borrowing();
+                borrowing.setMaMuonTra(rs.getString("maMuonTra"));
+                borrowing.setMaSach(rs.getString("maSach"));
+                borrowing.setMaDocGia(rs.getString("maDocGia"));
+                borrowing.setNgayMuon(rs.getDate("ngayMuon").toLocalDate());
+                borrowing.setNgayHenTra(rs.getDate("ngayHenTra").toLocalDate());
+                
+                Date ngayTraThucTe = rs.getDate("ngayTraThucTe");
+                if (ngayTraThucTe != null) {
+                    borrowing.setNgayTraThucTe(ngayTraThucTe.toLocalDate());
+                }
+                
+                borrowing.setTrangThai(rs.getString("trangThai"));
+                borrowing.setTenSach(rs.getString("tenSach"));
+                borrowing.setTenDocGia(rs.getString("tenDocGia"));
+                
+                borrowings.add(borrowing);
+            }
+            
+            return borrowings;
+        } catch (SQLException e) {
+            System.err.println("Error finding borrowings by date range: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        } finally {
+            closeResources(conn, stmt, rs);
+        }
+    }
 }

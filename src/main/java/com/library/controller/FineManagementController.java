@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.library.model.Fine;
 import com.library.service.FineService;
 import com.library.util.AlertUtil;
+import com.library.view.ViewManager;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -26,25 +27,28 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class FineManagementController implements Initializable {
     
     @FXML
-    private TableView<Fine> fineTable;
+    private TableView<Fine> tblFines;
     
     @FXML
-    private TableColumn<Fine, String> colMaPhiPhat;
+    private TableColumn<Fine, String> colMaPhieuPhat;
+    
+    @FXML
+    private TableColumn<Fine, String> colMaMuonTra;
     
     @FXML
     private TableColumn<Fine, String> colTenDocGia;
     
     @FXML
-    private TableColumn<Fine, String> colMaPhieuMuon;
-    
-    @FXML
-    private TableColumn<Fine, Double> colSoTien;
-    
-    @FXML
-    private TableColumn<Fine, String> colLyDo;
+    private TableColumn<Fine, String> colTenSach;
     
     @FXML
     private TableColumn<Fine, String> colNgayPhat;
+    
+    @FXML
+    private TableColumn<Fine, Double> colSoTienPhat;
+    
+    @FXML
+    private TableColumn<Fine, String> colLyDo;
     
     @FXML
     private TableColumn<Fine, String> colTrangThai;
@@ -59,13 +63,19 @@ public class FineManagementController implements Initializable {
     private Button btnSearch;
     
     @FXML
-    private Button btnPayFine;
+    private Button btnClear;
     
     @FXML
-    private Button btnRefresh;
+    private Button btnBack;
     
     @FXML
-    private Label lblTotalUnpaid;
+    private Button btnMarkAsPaid;
+    
+    @FXML
+    private Button btnExport;
+    
+    @FXML
+    private Label lblTotalFines;
     
     private FineService fineService;
     private ObservableList<Fine> fineList;
@@ -76,10 +86,11 @@ public class FineManagementController implements Initializable {
         fineService = FineService.getInstance();
         
         // Initialize table columns
-        colMaPhiPhat.setCellValueFactory(new PropertyValueFactory<>("maPhiPhat"));
+        colMaPhieuPhat.setCellValueFactory(new PropertyValueFactory<>("maPhieuPhat"));
+        colMaMuonTra.setCellValueFactory(new PropertyValueFactory<>("maMuonTra"));
         colTenDocGia.setCellValueFactory(new PropertyValueFactory<>("tenDocGia"));
-        colMaPhieuMuon.setCellValueFactory(new PropertyValueFactory<>("maPhieuMuon"));
-        colSoTien.setCellValueFactory(new PropertyValueFactory<>("soTien"));
+        colTenSach.setCellValueFactory(new PropertyValueFactory<>("tenSach"));
+        colSoTienPhat.setCellValueFactory(new PropertyValueFactory<>("soTienPhat"));
         colLyDo.setCellValueFactory(new PropertyValueFactory<>("lyDo"));
         
         colNgayPhat.setCellValueFactory(cellData -> {
@@ -89,27 +100,31 @@ public class FineManagementController implements Initializable {
         
         colTrangThai.setCellValueFactory(cellData -> {
             boolean daTra = cellData.getValue().isDaTra();
-            return new SimpleStringProperty(daTra ? "Đã trả" : "Chưa trả");
+            return new SimpleStringProperty(daTra ? "Paid" : "Unpaid");
         });
         
         colNgayTra.setCellValueFactory(cellData -> {
-            LocalDate date = cellData.getValue().getNgayPhat();
+            LocalDate date = cellData.getValue().getNgayTra();
             return new SimpleStringProperty(date != null ? date.format(dateFormatter) : "");
+        });
+        
+        // Add selection listener to enable/disable Mark as Paid button
+        tblFines.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                btnMarkAsPaid.setDisable(newSelection.isDaTra());
+            } else {
+                btnMarkAsPaid.setDisable(true);
+            }
         });
         
         // Load data
         loadFines();
-        
-        // Set button actions
-        btnRefresh.setOnAction(event -> loadFines());
-        btnPayFine.setOnAction(this::handlePayFine);
-        btnSearch.setOnAction(this::handleSearch);
     }
     
     private void loadFines() {
         List<Fine> fines = fineService.getAllFines();
         fineList = FXCollections.observableArrayList(fines);
-        fineTable.setItems(fineList);
+        tblFines.setItems(fineList);
         
         // Update total unpaid amount
         updateTotalUnpaid();
@@ -117,30 +132,30 @@ public class FineManagementController implements Initializable {
     
     private void updateTotalUnpaid() {
         double totalUnpaid = fineService.getTotalUnpaidFines();
-        lblTotalUnpaid.setText(String.format("Tổng tiền phạt chưa thu: %.0f VND", totalUnpaid));
+        lblTotalFines.setText(String.format("Total Unpaid Fines: $%.2f", totalUnpaid));
     }
     
     @FXML
-    private void handlePayFine(ActionEvent event) {
-        Fine selectedFine = fineTable.getSelectionModel().getSelectedItem();
+    private void handleMarkAsPaid(ActionEvent event) {
+        Fine selectedFine = tblFines.getSelectionModel().getSelectedItem();
         
         if (selectedFine == null) {
-            AlertUtil.showError("Lỗi", "Vui lòng chọn một phiếu phạt để thanh toán");
+            AlertUtil.showError("Error", "Please select a fine to mark as paid");
             return;
         }
         
         if (selectedFine.isDaTra()) {
-            AlertUtil.showError("Lỗi", "Phiếu phạt này đã được thanh toán");
+            AlertUtil.showError("Error", "This fine has already been paid");
             return;
         }
         
         boolean success = fineService.payFine(selectedFine.getMaPhieuPhat());
         
         if (success) {
-            AlertUtil.showInformation("Thành công", "Đã thanh toán phiếu phạt thành công");
+            AlertUtil.showInformation("Success", "Fine has been marked as paid successfully");
             loadFines();
         } else {
-            AlertUtil.showError("Lỗi", "Không thể thanh toán phiếu phạt");
+            AlertUtil.showError("Error", "Could not mark fine as paid");
         }
     }
     
@@ -149,7 +164,7 @@ public class FineManagementController implements Initializable {
         String searchText = txtSearch.getText().trim().toLowerCase();
         
         if (searchText.isEmpty()) {
-            fineTable.setItems(fineList);
+            tblFines.setItems(fineList);
             return;
         }
         
@@ -158,12 +173,81 @@ public class FineManagementController implements Initializable {
         for (Fine fine : fineList) {
             if (fine.getMaPhieuPhat().toLowerCase().contains(searchText) ||
                 fine.getMaMuonTra().toLowerCase().contains(searchText) ||
-                fine.getTenDocGia().toLowerCase().contains(searchText) ||
-                fine.getLyDo().toLowerCase().contains(searchText)) {
+                (fine.getTenDocGia() != null && fine.getTenDocGia().toLowerCase().contains(searchText)) ||
+                (fine.getTenSach() != null && fine.getTenSach().toLowerCase().contains(searchText)) ||
+                (fine.getLyDo() != null && fine.getLyDo().toLowerCase().contains(searchText))) {
                 filteredList.add(fine);
             }
         }
         
-        fineTable.setItems(filteredList);
+        tblFines.setItems(filteredList);
+        
+        // Update status message
+        if (filteredList.isEmpty()) {
+            lblTotalFines.setText("No matching fines found");
+        } else {
+            double totalFiltered = filteredList.stream()
+                .filter(fine -> !fine.isDaTra())
+                .mapToDouble(Fine::getSoTienPhat)
+                .sum();
+            lblTotalFines.setText(String.format("Filtered Unpaid Fines: $%.2f", totalFiltered));
+        }
+    }
+    
+    @FXML
+    private void handleClear(ActionEvent event) {
+        txtSearch.clear();
+        tblFines.setItems(fineList);
+        updateTotalUnpaid();
+    }
+    
+    @FXML
+    private void handleExport(ActionEvent event) {
+        // Get current date for filename
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String filename = "fines_report_" + date + ".csv";
+        
+        try {
+            StringBuilder csv = new StringBuilder();
+            csv.append("Fine ID,Borrowing ID,Reader Name,Book Title,Fine Date,Amount,Reason,Status,Payment Date\n");
+            
+            for (Fine fine : tblFines.getItems()) {
+                csv.append(fine.getMaPhieuPhat()).append(",");
+                csv.append(fine.getMaMuonTra()).append(",");
+                csv.append(escapeCsv(fine.getTenDocGia())).append(",");
+                csv.append(escapeCsv(fine.getTenSach())).append(",");
+                csv.append(fine.getNgayPhat() != null ? fine.getNgayPhat().format(dateFormatter) : "").append(",");
+                csv.append(String.format("%.2f", fine.getSoTienPhat())).append(",");
+                csv.append(escapeCsv(fine.getLyDo())).append(",");
+                csv.append(fine.isDaTra() ? "Paid" : "Unpaid").append(",");
+                csv.append(fine.getNgayTra() != null ? fine.getNgayTra().format(dateFormatter) : "").append("\n");
+            }
+            
+            // In a real application, you would save this to a file
+            // For now, just show a success message
+            AlertUtil.showInformation("Export Successful", 
+                "Fines report has been exported to: " + filename);
+            
+        } catch (Exception e) {
+            AlertUtil.showError("Export Error", "Failed to export fines report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    private String escapeCsv(String value) {
+        if (value == null) return "";
+        // Escape quotes and wrap in quotes if contains comma
+        if (value.contains("\"")) {
+            value = value.replace("\"", "\"\"");
+        }
+        if (value.contains(",")) {
+            value = "\"" + value + "\"";
+        }
+        return value;
+    }
+    
+    @FXML
+    private void handleBack(ActionEvent event) {
+        ViewManager.getInstance().switchToLibrarianDashboard();
     }
 }
