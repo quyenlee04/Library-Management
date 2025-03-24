@@ -64,37 +64,6 @@
                             </font>
                         </Text>
                     </VBox>
-                    
-                    <!-- Thêm HBox cho các thống kê -->
-                    <HBox spacing="20" alignment="CENTER">
-                        <VBox styleClass="stat-box" alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
-                            <padding>
-                                <Insets top="15" right="15" bottom="15" left="15"/>
-                            </padding>
-                            <Label text="Sách đang mượn" styleClass="stat-title"/>
-                            <Label fx:id="activeBorrowingsLabel" text="0" styleClass="stat-value"/>
-                            <Button text="Xem chi tiết" onAction="#handleMyBorrowings" styleClass="action-button"/>
-                        </VBox>
-                        
-                        <VBox styleClass="stat-box" alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
-                            <padding>
-                                <Insets top="15" right="15" bottom="15" left="15"/>
-                            </padding>
-                            <Label text="Tổng sách đã mượn" styleClass="stat-title"/>
-                            <Label fx:id="totalBorrowingsLabel" text="0" styleClass="stat-value"/>
-                            <Button text="Xem lịch sử" onAction="#handleBorrowingHistory" styleClass="action-button"/>
-                        </VBox>
-                    </HBox>
-                    
-                    <!-- Recent Activity Section -->
-                    <VBox spacing="10">
-                        <Label text="Hoạt động gần đây" styleClass="section-title">
-                            <font>
-                                <Font name="System Bold" size="18"/>
-                            </font>
-                        </Label>
-                        <ListView fx:id="recentActivitiesListView" prefHeight="150"/>
-                    </VBox>
                 </VBox>
             </ScrollPane>
         </StackPane>

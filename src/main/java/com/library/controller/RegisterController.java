@@ -1,23 +1,27 @@
 package com.library.controller;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import com.library.model.Reader;
 import com.library.model.User;
 import com.library.service.AuthService;
 import com.library.service.ReaderService;
 import com.library.util.AlertUtil;
-import javafx.fxml.FXMLLoader;
-import com.library.util.SessionManager;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
@@ -137,8 +141,8 @@ public class RegisterController implements Initializable {
         
         if (passwordField.getText().isEmpty()) {
             errorMessage.append("Mật khẩu không được để trống\n");
-        } else if (passwordField.getText().length() < 6) {
-            errorMessage.append("Mật khẩu phải có ít nhất 6 ký tự\n");
+        } else if (passwordField.getText().length() < 8) {
+            errorMessage.append("Mật khẩu phải có ít nhất 8 ký tự\n");
         }
         
         if (confirmPasswordField.getText().isEmpty()) {

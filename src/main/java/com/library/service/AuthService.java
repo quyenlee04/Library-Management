@@ -28,19 +28,27 @@ public class AuthService {
         
         if (userOpt.isPresent()) {
             User user = userOpt.get();
+
+            if (user.getStatus() == User.UserStatus.LOCKED) {
+                // Set the user but return false to indicate login failure
+                currentUser = user;
+                return false;
+            }
             
             if (PasswordUtil.verifyPassword(password, user.getPassword())) {
                 currentUser = user;
                 
-                // Remove the lastLogin update
-                // user.setLastLogin(LocalDateTime.now());
-                // userDAO.update(user);
+
                 
                 return true;
             }
         }
+
         
         return false;
+    }
+    public boolean isCurrentUserLocked() {
+        return currentUser != null && currentUser.getStatus() == User.UserStatus.LOCKED;
     }
     
     public void logout() {

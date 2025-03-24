@@ -233,18 +233,17 @@ public class BookDAO {
                 stmt.setInt(7, book.getSoLuong());
                 stmt.setInt(8, book.getSoLuongKhaDung());
             } else {
-                sql = "INSERT INTO sach (maSach, tenSach, tacGia, namXuatBan, theLoai, trangThai, moTa, soLuong, soLuongKhaDung) " +
-                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, Integer.parseInt(book.getMaSach()));
-                stmt.setString(2, book.getTenSach());
-                stmt.setString(3, book.getTacGia());
-                stmt.setInt(4, book.getNamXuatBan());
-                stmt.setString(5, book.getTheLoai());
-                stmt.setString(6, book.getTrangThai());
-                stmt.setString(7, book.getMoTa());
-                stmt.setInt(8, book.getSoLuong());
-                stmt.setInt(9, book.getSoLuongKhaDung());
+                sql = "INSERT INTO sach (tenSach, tacGia, namXuatBan, theLoai, trangThai, moTa, soLuong, soLuongKhaDung) " +
+                      "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, book.getTenSach());
+                stmt.setString(2, book.getTacGia());
+                stmt.setInt(3, book.getNamXuatBan());
+                stmt.setString(4, book.getTheLoai());
+                stmt.setString(5, book.getTrangThai());
+                stmt.setString(6, book.getMoTa());
+                stmt.setInt(7, book.getSoLuong());
+                stmt.setInt(8, book.getSoLuongKhaDung());
             }
             
             int rowsAffected = stmt.executeUpdate();

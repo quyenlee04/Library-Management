@@ -63,11 +63,11 @@
                            GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 
                 <!-- Địa chỉ -->
-                <Label text="Địa chỉ:" styleClass="field-label" 
+                <!-- <Label text="Địa chỉ:" styleClass="field-label" 
                        GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <TextArea fx:id="addressArea" promptText="Nhập địa chỉ" prefHeight="60"
                           GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                
+                 -->
                 <!-- Ngày sinh -->
                 <Label text="Ngày sinh:" styleClass="field-label" 
                        GridPane.columnIndex="0" GridPane.rowIndex="5" />

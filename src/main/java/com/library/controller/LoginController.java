@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader; // Add this import for standard JavaFX FXMLLoader
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -23,7 +24,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 public class LoginController implements Initializable {
@@ -76,10 +76,18 @@ public class LoginController implements Initializable {
             if (currentUser != null) {
                 handleSuccessfulLogin(currentUser);
             }
-        } else {
+        } 
+        
+        else{
+            // Check if the account is locked
+            if (authService.isCurrentUserLocked()) {
+                AlertUtil.showError("Account Locked", "Your account has been locked. Please contact the administrator for assistance.");
+            } else {
             AlertUtil.showError("Login Failed", "Invalid username or password.");
         }
-    }
+
+    }}
+
     
     @FXML
     private void handleRegister(ActionEvent event) {

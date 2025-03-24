@@ -249,7 +249,7 @@ public class BorrowingDAO {
         
         try {
             conn = DBUtil.getInstance().getConnection();
-            String sql = "UPDATE muontra SET ngayTraThucTe = ?, trangThai = 'Returned' WHERE maMuonTra = ?";
+            String sql = "UPDATE muontra SET ngayTraThucTe = ?, trangThai = 'DA_TRA' WHERE maMuonTra = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setDate(1, Date.valueOf(returnDate));
             stmt.setInt(2, Integer.parseInt(borrowingId));
