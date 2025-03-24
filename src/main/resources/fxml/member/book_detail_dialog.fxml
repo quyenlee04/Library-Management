@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.library.controller.BookDetailDialogController"
+      spacing="15" styleClass="book-detail-dialog"
+      prefWidth="600" prefHeight="500">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <HBox spacing="20">
+        <ImageView fx:id="bookCoverImage" fitHeight="200" fitWidth="150" preserveRatio="true" />
+        
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <Label fx:id="titleLabel" styleClass="book-title" />
+            
+            <GridPane vgap="5" hgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="100" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+                
+                <Label text="Tác giả:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <Label fx:id="authorLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                
+                <Label text="Thể loại:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <Label fx:id="categoryLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                
+                <Label text="Nhà xuất bản:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                <Label fx:id="publisherLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                
+                <Label text="Năm xuất bản:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                <Label fx:id="yearLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                
+                <Label text="ISBN:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                <Label fx:id="isbnLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                
+                <Label text="Trạng thái:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                <Label fx:id="availableLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+            </GridPane>
+        </VBox>
+    </HBox>
+    
+    <VBox spacing="5" VBox.vgrow="ALWAYS">
+        <Label text="Mô tả:" />
+        <TextArea fx:id="descriptionArea" wrapText="true" editable="false" VBox.vgrow="ALWAYS" />
+    </VBox>
+    
+    <HBox alignment="CENTER_RIGHT">
+        <Button fx:id="closeButton" text="Đóng" onAction="#handleClose" />
+    </HBox>
+</VBox>

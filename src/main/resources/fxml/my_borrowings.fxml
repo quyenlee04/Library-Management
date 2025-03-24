@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.library.controller.MyBorrowingsController"
+            prefHeight="500.0" prefWidth="700.0">
+
+    <top>
+        <VBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label text="Sách Đang Mượn" styleClass="page-title">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+            <Label fx:id="readerInfoLabel" text="Thông tin độc giả" styleClass="reader-info"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+            <TableView fx:id="borrowingTableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="bookTitleColumn" text="Tên sách" prefWidth="200"/>
+                    <TableColumn fx:id="borrowDateColumn" text="Ngày mượn" prefWidth="100"/>
+                    <TableColumn fx:id="dueDateColumn" text="Ngày hẹn trả" prefWidth="100"/>
+                    <TableColumn fx:id="statusColumn" text="Trạng thái" prefWidth="100"/>
+                    <TableColumn fx:id="actionColumn" text="Thao tác" prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button fx:id="refreshButton" text="Làm mới" onAction="#handleRefresh"/>
+            <Button fx:id="closeButton" text="Đóng" onAction="#handleClose"/>
+        </HBox>
+    </bottom>
+</BorderPane>

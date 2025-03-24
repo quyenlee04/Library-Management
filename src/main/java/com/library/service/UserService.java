@@ -68,4 +68,20 @@ public boolean resetPassword(String userId) {
     public int getTotalUsers() {
         return getAllUsers().size();
     }
+    
+    /**
+     * Updates a user's password
+     * @param userId The ID of the user
+     * @param newPassword The new password (unhashed)
+     * @return true if password was updated successfully
+     */
+    public boolean updatePassword(String userId, String newPassword) {
+        Optional<User> userOpt = getUserById(userId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setPassword(PasswordUtil.hashPassword(newPassword));
+            return updateUser(user);
+        }
+        return false;
+    }
 }

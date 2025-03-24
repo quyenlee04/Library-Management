@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.library.controller.BrowseBooksController"
+      spacing="15" styleClass="content-pane">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Text styleClass="section-title" text="Tìm kiếm sách" />
+    </HBox>
+    
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Nhập từ khóa tìm kiếm" HBox.hgrow="ALWAYS" />
+        <ComboBox fx:id="searchTypeComboBox" prefWidth="150" />
+        <Button fx:id="searchButton" text="Tìm kiếm" onAction="#handleSearch" />
+    </HBox>
+    
+    <TableView fx:id="booksTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="Mã sách" prefWidth="80" />
+            <TableColumn fx:id="titleColumn" text="Tên sách" prefWidth="200" />
+            <TableColumn fx:id="authorColumn" text="Tác giả" prefWidth="150" />
+            <TableColumn fx:id="categoryColumn" text="Thể loại" prefWidth="120" />
+            <TableColumn fx:id="publishYearColumn" text="Năm XB" prefWidth="80" />
+            <TableColumn fx:id="statusColumn" text="Trạng thái" prefWidth="100" />
+            <TableColumn fx:id="actionsColumn" text="Thao tác" prefWidth="120" />
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="resultCountLabel" text="Tổng số: 0 sách" />
+    </HBox>
+</VBox>

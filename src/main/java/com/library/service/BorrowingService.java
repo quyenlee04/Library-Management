@@ -156,13 +156,21 @@ public class BorrowingService {
             }
             
             // Check if already extended maximum times (e.g., max 2 extensions)
-           
+            int maxExtensions = 2;
+            int currentExtensions = borrowing.getSoLanGiaHan();
             
-            // // Extend by 7 days from current due date
-            // LocalDate newDueDate = borrowing.getNgayHenTra().plusDays(7);
-            // int newExtensionCount = borrowing.getSoLanGiaHan() + 1;
+            if (currentExtensions >= maxExtensions) {
+                return false;
+            }
             
-            // return borrowingDAO.extendBorrowing(borrowingId, newDueDate, newExtensionCount);
+            // Extend by 7 days from current due date
+            LocalDate newDueDate = borrowing.getNgayHenTra().plusDays(7);
+            int newExtensionCount = currentExtensions + 1;
+            
+            borrowing.setNgayHenTra(newDueDate);
+            borrowing.setSoLanGiaHan(newExtensionCount);
+            
+            return updateBorrowing(borrowing);
         }
         
         return false;
