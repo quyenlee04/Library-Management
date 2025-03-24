@@ -132,6 +132,9 @@ public class BorrowingDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(id));
             
+            // Thiếu dòng rs = stmt.executeQuery(); trước khi kiểm tra rs.next()
+            rs = stmt.executeQuery(); // Dòng này bị thiếu
+            
             if (rs.next()) {
                 Borrowing borrowing = mapResultSetToBorrowing(rs);
                 return Optional.of(borrowing);

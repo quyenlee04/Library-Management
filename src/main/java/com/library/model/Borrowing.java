@@ -11,12 +11,14 @@ public class Borrowing {
     private LocalDate ngayTraThucTe;
     private String trangThai;
     private String ghiChu;
+    private int soLanGiaHan; // Thêm thuộc tính số lần gia hạn
     
     // For joining with other tables
     private String tenDocGia;
     private String tenSach;
     
     public Borrowing() {
+        this.soLanGiaHan = 0; // Mặc định là 0 lần gia hạn
     }
     
     public Borrowing(String maMuonTra, String maDocGia, String maSach, LocalDate ngayMuon, 
@@ -29,6 +31,7 @@ public class Borrowing {
         this.ngayTraThucTe = ngayTraThucTe;
         this.trangThai = trangThai;
         this.ghiChu = ghiChu;
+        this.soLanGiaHan = 0; // Mặc định là 0 lần gia hạn
     }
     
     // Getters and Setters
@@ -110,5 +113,13 @@ public class Borrowing {
     
     public void setTenSach(String tenSach) {
         this.tenSach = tenSach;
+    }
+    
+    public int getSoLanGiaHan() {
+        return soLanGiaHan;
+    }
+    
+    public void setSoLanGiaHan(int soLanGiaHan) {
+        this.soLanGiaHan = soLanGiaHan;
     }
 }

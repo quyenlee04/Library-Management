@@ -260,4 +260,20 @@ public class ViewManager {
             System.err.println("Error loading view: " + fxmlPath + " - " + e.getMessage());
         }
     }
+    
+    public void switchToReturnBookView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ReturnBookView.fxml"));
+            Parent root = loader.load();
+            
+            Stage stage = new Stage();
+            stage.setTitle("Library Management System - Return Books");
+            stage.setScene(new Scene(root));
+            stage.setResizable(true);
+            stage.show();
+        } catch (IOException e) {
+            AlertUtil.showError("Error", "Could not load return book view: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

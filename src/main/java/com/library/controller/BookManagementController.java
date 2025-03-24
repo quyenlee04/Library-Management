@@ -149,13 +149,13 @@ public class BookManagementController implements Initializable {
         } else {
             switch (searchType) {
                 case "Title":
-                    books = bookService.findByTitle(searchTerm);
+                    books = bookService.findBooksByTitle(searchTerm);
                     break;
                 case "Author":
-                    books = bookService.findByAuthor(searchTerm);
+                    books = bookService.findBooksByAuthor(searchTerm);
                     break;
                 case "Category":
-                    books = bookService.findByCategory(searchTerm);
+                    books = bookService.findBooksByCategory(searchTerm);
                     break;
                 default:
                     books = bookService.searchBooks(searchTerm);
@@ -170,7 +170,7 @@ public class BookManagementController implements Initializable {
     @FXML
     private void handleAddBook(ActionEvent event) {
         BookDialogController.showAddDialog().ifPresent(book -> {
-            if (bookService.saveBook(book)) {
+            if (bookService.addBook(book)) {
                 AlertUtil.showInformation("Success", "Book added successfully");
                 loadBooks();
             } else {

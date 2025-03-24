@@ -1,55 +1,40 @@
-2.2.1. Đặc tả Use Case cho Thủ thư
-- Thêm sách
-•	Mô tả: Thủ thư thêm sách mới vào hệ thống thư viện.
-•	Tác nhân: Thủ thư.
+2.2.2. Đặc tả Use Case cho Độc giả
+- Đăng ký tài khoản
+•	Mô tả: Người dùng tạo tài khoản để sử dụng dịch vụ thư viện.
 •	Luồng chính:
-1.	Thủ thư nhập thông tin sách (tên sách, tác giả, năm xuất bản...).
-2.	Hệ thống kiểm tra tính hợp lệ của dữ liệu.
-3.	Hệ thống lưu thông tin sách vào cơ sở dữ liệu.
-4.	Hiển thị thông báo thêm thành công.
-•	Luồng ngoại lệ:
-1.	2a. Thông tin nhập không hợp lệ → Hiển thị thông báo lỗi.
-- Sửa sách
-•	Mô tả: Chỉnh sửa thông tin sách đã có trong hệ thống.
+1.	Nhập thông tin cá nhân.
+2.	Hệ thống kiểm tra hợp lệ.
+3.	Lưu vào cơ sở dữ liệu và hiển thị thông báo thành công.
+- Đăng nhập
+•	Mô tả: Người dùng đăng nhập vào hệ thống.
 •	Luồng chính:
-1.	Thủ thư tìm kiếm sách cần chỉnh sửa.
-2.	Chọn sách và cập nhật thông tin mới.
-3.	Hệ thống xác nhận và lưu thay đổi.
-4.	Hiển thị thông báo sửa thành công.
-- Xóa sách
-•	Mô tả: Thủ thư xóa sách khỏi hệ thống.
-•	Luồng chính:
-1.	Tìm sách cần xóa.
-2.	Xác nhận xóa.
-3.	Hệ thống cập nhật trạng thái sách.
-4.	Hiển thị thông báo xóa thành công.
-•	Luồng ngoại lệ:
-1.	2a. Sách đang được mượn → Không thể xóa, hiển thị thông báo.
+1.	Nhập tên đăng nhập và mật khẩu.
+2.	Hệ thống kiểm tra thông tin.
+3.	Cho phép truy cập nếu hợp lệ.
 - Tìm kiếm sách
-•	Mô tả: Tra cứu sách theo nhiều tiêu chí (tên, tác giả, thể loại).
+•	Mô tả: Độc giả tra cứu sách có trong thư viện.
 •	Luồng chính:
-1.	Thủ thư nhập tiêu chí tìm kiếm.
-2.	Hệ thống hiển thị danh sách sách phù hợp.
-- Quản lý độc giả (Thêm, Sửa, Xóa)
-•	Mô tả: Thủ thư quản lý thông tin độc giả trong hệ thống.
+1.	Nhập tiêu chí tìm kiếm.
+2.	Hệ thống hiển thị kết quả phù hợp.
+- Xem thông tin sách
+•	Mô tả: Độc giả xem chi tiết sách.
 •	Luồng chính:
-1.	Nhập thông tin độc giả mới / tìm kiếm độc giả cần sửa hoặc xóa.
-2.	Hệ thống xác nhận và cập nhật cơ sở dữ liệu.
-- Quản lý mượn/trả sách
-•	Mô tả: Thủ thư thực hiện việc cho mượn và nhận trả sách.
+1.	Chọn sách từ danh sách tìm kiếm.
+2.	Hệ thống hiển thị thông tin.
+- Đặt mượn sách
+•	Mô tả: Độc giả đặt sách để mượn.
 •	Luồng chính:
-1.	Tìm kiếm độc giả và sách cần mượn/trả.
+1.	Chọn sách cần mượn.
+2.	Xác nhận đặt mượn.
+3.	Hệ thống lưu yêu cầu.
+- Xem lịch sử mượn/trả
+•	Mô tả: Độc giả xem danh sách sách đã mượn và trả.
+•	Luồng chính:
+1.	Chọn mục "Lịch sử mượn/trả".
+2.	Hệ thống hiển thị danh sách sách.
+- Gia hạn sách
+•	Mô tả: Độc giả yêu cầu gia hạn thời gian mượn sách.
+•	Luồng chính:
+1.	Chọn sách cần gia hạn.
 2.	Hệ thống kiểm tra điều kiện.
-3.	Cập nhật trạng thái sách.
-4.	Hiển thị kết quả.
-- Xem báo cáo thống kê
-•	Mô tả: Xem báo cáo về số sách đã mượn, sách còn trong kho, số lượt mượn theo thời gian.
-•	Luồng chính:
-1.	Chọn loại báo cáo.
-2.	Hệ thống hiển thị dữ liệu thống kê.
-- Quản lý phiếu phạt
-•	Mô tả: Quản lý danh sách độc giả bị phạt do trả sách trễ hoặc vi phạm.
-•	Luồng chính:
-1.	Xác nhận vi phạm.
-2.	Tạo phiếu phạt trong hệ thống.
-3.	Hiển thị danh sách phiếu phạt.
+3.	Xác nhận và gia hạn thành công.

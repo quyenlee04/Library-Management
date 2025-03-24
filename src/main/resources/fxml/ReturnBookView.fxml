@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.library.controller.ReturnBookController">
+   <top>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Trả Sách" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="readerInfoLabel" text="Thông tin độc giả">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
+   <center>
+      <TableView fx:id="borrowingTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="selectColumn" prefWidth="50.0" text="Chọn" />
+          <TableColumn fx:id="bookTitleColumn" prefWidth="300.0" text="Tên Sách" />
+          <TableColumn fx:id="borrowDateColumn" prefWidth="120.0" text="Ngày Mượn" />
+          <TableColumn fx:id="dueDateColumn" prefWidth="120.0" text="Ngày Hẹn Trả" />
+          <TableColumn fx:id="statusColumn" prefWidth="120.0" text="Trạng Thái" />
+        </columns>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#handleReturnBooks" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #4CAF50;" text="Trả Sách" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #f44336;" text="Hủy" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>

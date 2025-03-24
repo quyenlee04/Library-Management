@@ -83,4 +83,37 @@ public class AuthService {
         
         return false;
     }
+    
+    /**
+     * Verifies if the provided password matches the stored password for a user
+     * @param username The username to check
+     * @param password The password to verify
+     * @return true if password matches
+     */
+    public boolean verifyPassword(String username, String password) {
+        Optional<User> userOpt = userDAO.findByUsername(username);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return PasswordUtil.verifyPassword(password, user.getPassword());
+        }
+        return false;
+    }
+    
+    /**
+     * Lấy thông tin người dùng theo tên đăng nhập
+     * @param username Tên đăng nhập cần tìm
+     * @return Optional chứa thông tin người dùng nếu tìm thấy
+     */
+    public Optional<User> getUserByUsername(String username) {
+        return userDAO.findByUsername(username);
+    }
+    
+    /**
+     * Xóa người dùng theo ID
+     * @param userId ID của người dùng cần xóa
+     * @return true nếu xóa thành công
+     */
+    public boolean deleteUser(String userId) {
+        return userDAO.delete(userId);
+    }
 }
